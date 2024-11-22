@@ -4,7 +4,7 @@ namespace Aoc._2015.day04.v1;
 
 public class FirstValidInput(string pattern)
 {
-    private readonly Regex Pattern = new (pattern, RegexOptions.IgnoreCase);
+    private readonly Regex Pattern = new(pattern, RegexOptions.IgnoreCase);
     private Hasher Hasher;
 
     public string? ForSecret(string secret)
@@ -19,8 +19,13 @@ public class FirstValidInput(string pattern)
         var isMatch = false;
         var i = 0;
 
-        while (!isMatch && i < 10000000)
+        while (!isMatch)
         {
+            if (i == 10000000)
+            {
+                throw new Exception("Match has not been found after 10000000 loops. It might be found with more!");
+            }
+
             var hashedValue = Hasher.IterateOnSecret();
             isMatch = Pattern.IsMatch(hashedValue);
             i++;

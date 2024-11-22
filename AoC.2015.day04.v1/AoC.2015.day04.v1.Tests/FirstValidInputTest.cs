@@ -15,7 +15,6 @@ public class FirstValidInputTest
         validInput.Should().Be("abcdef1");
     }
 
-
     [Fact]
     public void FirstValidInputIsFourthInput()
     {
