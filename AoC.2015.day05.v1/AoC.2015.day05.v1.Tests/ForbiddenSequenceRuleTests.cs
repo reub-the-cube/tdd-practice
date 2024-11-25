@@ -4,7 +4,7 @@ namespace AoC._2015.day05.v1.Tests;
 
 public class ForbiddenSequenceRuleTests
 {
-    private ForbiddenSequenceRule _rule;
+    private readonly ForbiddenSequenceRule _rule;
     public ForbiddenSequenceRuleTests()
     {
         _rule = new ForbiddenSequenceRule();
