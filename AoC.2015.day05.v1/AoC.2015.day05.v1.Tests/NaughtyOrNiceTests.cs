@@ -21,16 +21,6 @@ public class NaughtyOrNiceTests
         isNice.Should().Be(false);
     }
 
-    // [Fact]
-    // public void StringLessThanOrThreeCharactersReturnsFalseForIsNice() 
-    // {
-    //     var initialInput = "abc";
-
-    //     var isNice = naughtyOrNice.IsNice(initialInput);
-
-    //     isNice.Should().Be(false);
-    // }
-
     [Theory]
     [InlineData("aa")]
     [InlineData("bb")]
@@ -77,9 +67,11 @@ public class NaughtyOrNiceTests
 ab is naughty
 abei is naughty (because of ab) 
 
-[x] aeibb is nice
-[x] bbaei is nice
+[x] aa to zz can be nice (as a rule)
 
+
+[ ] aeibb is nice
+[ ] bbaei is nice
 [ ] aaei is nice
 
 aei is naughty
