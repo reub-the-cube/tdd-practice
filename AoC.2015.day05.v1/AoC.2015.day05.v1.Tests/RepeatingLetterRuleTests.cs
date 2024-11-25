@@ -14,7 +14,7 @@ public class RepeatingLetterRuleTests
     public void EmptyStringReturnsFalseForIsNice()
     {
         var initialInput = string.Empty;
-
+        
         var isNice = _rule.IsNice(initialInput);
 
         isNice.Should().Be(false);
