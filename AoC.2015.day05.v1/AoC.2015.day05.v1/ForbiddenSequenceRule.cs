@@ -4,8 +4,8 @@ public class ForbiddenSequenceRule : StringRule
 {
     public override bool IsNice(string initialValue)
     {
-        if (initialValue == "ab")
-        {
+        List<string> forbiddenSequences = ["ab", "cd", "pq", "xy"];
+        if (forbiddenSequences.Any(initialValue.Contains)) {
             return false;
         }
         

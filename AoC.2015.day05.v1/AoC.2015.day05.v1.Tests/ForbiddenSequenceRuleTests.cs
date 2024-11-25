@@ -12,6 +12,9 @@ public class ForbiddenSequenceRuleTests
 
     [Theory]
     [InlineData("ab")]
+    [InlineData("cd")]
+    [InlineData("pq")]
+    [InlineData("xy")]
     public void ForbiddenSequenceReturnsFalseForIsNice(string initialValue)
     {
         var isNice = _rule.IsNice(initialValue);
@@ -19,8 +22,9 @@ public class ForbiddenSequenceRuleTests
         isNice.Should().Be(false);
     }
 
-        [Theory]
+    [Theory]
     [InlineData("ba")]
+    [InlineData("acbd")]
     public void NoForbiddenSequenceReturnsTrueForIsNice(string initialValue)
     {
         var isNice = _rule.IsNice(initialValue);
