@@ -1,6 +1,6 @@
 namespace AoC._2015.day05.v1;
 
-public class NaughtyOrNiceRule
+public class RepeatingLetterRule
 {
     public bool IsNice(string initialInput)
     {

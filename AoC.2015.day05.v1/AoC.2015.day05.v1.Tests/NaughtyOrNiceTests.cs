@@ -1,14 +1,13 @@
-using System.Runtime.Serialization;
 using FluentAssertions;
 
 namespace AoC._2015.day05.v1.Tests;
 
-public class NaughtyOrNiceTests
+public class RepeatingLetterRuleTests
 {
-    private readonly NaughtyOrNiceRule _naughtyOrNice;
-    public NaughtyOrNiceTests()
+    private readonly RepeatingLetterRule _rule;
+    public RepeatingLetterRuleTests()
     {
-        _naughtyOrNice = new NaughtyOrNiceRule();
+        _rule = new RepeatingLetterRule();
     }
 
     [Fact]
@@ -16,7 +15,7 @@ public class NaughtyOrNiceTests
     {
         var initialInput = string.Empty;
 
-        var isNice = _naughtyOrNice.IsNice(initialInput);
+        var isNice = _rule.IsNice(initialInput);
 
         isNice.Should().Be(false);
     }
@@ -50,9 +49,19 @@ public class NaughtyOrNiceTests
     [InlineData("zz")]
     public void RepeatingLetterReturnsTrueForIsNice(string initialInput)
     {
-        var isNice = _naughtyOrNice.IsNice(initialInput);
+        var isNice = _rule.IsNice(initialInput);
 
         isNice.Should().Be(true);
+    }
+
+    [Theory]
+    [InlineData("ab")]
+    [InlineData("zy")]
+    public void RepeatingLetterReturnsFalseForIsNice(string initialInput)
+    {
+        var isNice = _rule.IsNice(initialInput);
+
+        isNice.Should().Be(false);
     }
 
 
