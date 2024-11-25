@@ -19,4 +19,18 @@ public class ThreeVowelsRuleTests
 
         isNice.Should().Be(false);
     }
+
+    [Theory]
+    [InlineData("aei")]
+    [InlineData("aou")]
+    [InlineData("oui")]
+    [InlineData("aaa")]
+    [InlineData("slaaa")]
+    [InlineData("aeiou")]
+    public void ThreeOrMoreVowelsReturnsTrueForIsNice(string initialInput)
+    {
+        var isNice = _rule.IsNice(initialInput);
+
+        isNice.Should().Be(true);
+    }
 }
