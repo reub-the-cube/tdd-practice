@@ -1,10 +1,10 @@
 namespace AoC._2015.day05.v1;
 
-public class RepeatingLetterRule
+public class RepeatingLetterRule : StringRule
 {
-    public bool IsNice(string initialInput)
+    public override bool IsNice(string initialValue)
     {
-        if (ContainsDoubleLetter(initialInput))
+        if (ContainsDoubleLetter(initialValue))
         {
             return true;
         }
@@ -12,11 +12,11 @@ public class RepeatingLetterRule
         return false;
     }
 
-    private static bool ContainsDoubleLetter(string initialInput)
+    private static bool ContainsDoubleLetter(string initialValue)
     {
         List<string> mustContain = ["aa", "bb", "cc", "dd", "ee", "ff", "gg", "hh", "ii", "jj", "kk", "ll", "mm",
             "nn", "oo", "pp", "qq", "rr", "ss", "tt", "uu", "vv", "ww", "xx", "yy", "zz"];
         
-        return mustContain.Any(initialInput.Contains);
+        return mustContain.Any(initialValue.Contains);
     }
 }
