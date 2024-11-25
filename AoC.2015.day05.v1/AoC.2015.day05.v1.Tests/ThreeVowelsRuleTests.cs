@@ -26,11 +26,21 @@ public class ThreeVowelsRuleTests
     [InlineData("oui")]
     [InlineData("aaa")]
     [InlineData("slaaa")]
-    [InlineData("aeiou")]
+    [InlineData("azeyixowu")]
     public void ThreeOrMoreVowelsReturnsTrueForIsNice(string initialInput)
     {
         var isNice = _rule.IsNice(initialInput);
 
         isNice.Should().Be(true);
+    }
+
+    [Theory]
+    [InlineData("abbe")]
+    [InlineData("dvszwmarrgswjxmb")]
+    public void LessThanThreeVowelsReturnsFalseForIsNice(string initialInput)
+    {
+        var isNice = _rule.IsNice(initialInput);
+
+        isNice.Should().Be(false);
     }
 }
