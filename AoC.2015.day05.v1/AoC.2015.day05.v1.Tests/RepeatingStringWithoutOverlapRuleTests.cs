@@ -32,6 +32,8 @@ namespace AoC._2015.day05.v1.Tests
         [Theory]
         [InlineData("aba")]
         [InlineData("abba")]
+        [InlineData("aaa")]
+        [InlineData("baaab")]
         public void NonRepeatingSubstringReturnsFalseForIsNice(string initialInput)
         {
             var rule = new RepeatingStringWithoutOverlapRule();
