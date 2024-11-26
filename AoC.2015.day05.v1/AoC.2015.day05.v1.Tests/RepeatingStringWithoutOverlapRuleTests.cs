@@ -18,6 +18,8 @@ namespace AoC._2015.day05.v1.Tests
         [InlineData("abab")]
         [InlineData("abaab")]
         [InlineData("acac")]
+        [InlineData("xyxy")]
+        [InlineData("aabcdefgaa")]
         public void RepeatingSubstringReturnsTrueForIsNice(string initialInput)
         {
             var rule = new RepeatingStringWithoutOverlapRule();
