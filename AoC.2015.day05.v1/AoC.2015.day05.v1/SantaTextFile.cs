@@ -7,4 +7,10 @@ public static class SantaTextFile
         var stringChecker = new SantaStringCheckerPartOne();
         return list.Count(stringChecker.IsNice);
     }
+
+    public static int NumberOfNiceStringsForPartTwo(IEnumerable<string> list)
+    {
+        var stringChecker = new SantaStringCheckerPartTwo();
+        return list.Count(stringChecker.IsNice);
+    }
 }
