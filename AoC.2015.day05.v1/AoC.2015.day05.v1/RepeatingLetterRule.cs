@@ -4,7 +4,7 @@ public class RepeatingLetterRule : StringRule
 {
     public override bool IsNice(string initialValue)
     {
-        if (ContainsDoubleLetter(initialValue))
+        if (ContainsSubstringThatStartsAndEndsInTheSameLetter(initialValue))
         {
             return true;
         }
@@ -12,11 +12,10 @@ public class RepeatingLetterRule : StringRule
         return false;
     }
 
-    private static bool ContainsDoubleLetter(string initialValue)
+    private static bool ContainsSubstringThatStartsAndEndsInTheSameLetter(string initialInput)
     {
-        List<string> mustContain = ["aa", "bb", "cc", "dd", "ee", "ff", "gg", "hh", "ii", "jj", "kk", "ll", "mm",
-            "nn", "oo", "pp", "qq", "rr", "ss", "tt", "uu", "vv", "ww", "xx", "yy", "zz"];
-        
-        return mustContain.Any(initialValue.Contains);
+        var substrings = Splitter.GetAllSubstrings(initialInput, 2);
+
+        return substrings.Any(s => s[0] == s[1]);
     }
 }
