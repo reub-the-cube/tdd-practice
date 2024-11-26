@@ -9,7 +9,7 @@ public class SantaTextFileTests
     {
         List<string> list = [];
 
-        var numberOfNiceStrings = SantaTextFile.NumberOfNiceStrings(list);
+        var numberOfNiceStrings = SantaTextFile.NumberOfNiceStringsForPartOne(list);
 
         numberOfNiceStrings.Should().Be(0);
     }
@@ -25,7 +25,7 @@ public class SantaTextFileTests
             "dvszwmarrgswjxmb"
         ];
 
-        var numberOfNiceStrings = SantaTextFile.NumberOfNiceStrings(list);
+        var numberOfNiceStrings = SantaTextFile.NumberOfNiceStringsForPartOne(list);
 
         numberOfNiceStrings.Should().Be(2);
     }
@@ -1036,7 +1036,7 @@ public class SantaTextFileTests
 "wtebigbaythklkbd"
         ];
 
-        var numberOfNiceStrings = SantaTextFile.NumberOfNiceStrings(list);
+        var numberOfNiceStrings = SantaTextFile.NumberOfNiceStringsForPartOne(list);
 
         numberOfNiceStrings.Should().Be(236);
     }

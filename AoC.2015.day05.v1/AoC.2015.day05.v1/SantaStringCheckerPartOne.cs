@@ -6,8 +6,8 @@
         {
             _rules = [
                 new ForbiddenSequenceRule(),
-            new RepeatingLetterRule(),
-            new ThreeVowelsRule()
+                new RepeatingLetterRule(),
+                new ThreeVowelsRule()
             ];
         }
     }
