@@ -1,8 +1,8 @@
 namespace AoC._2015.day05.v1;
 
-public class SantaStringChecker : StringRule
+public abstract class SantaStringChecker : StringRule
 {
-    private readonly List<StringRule> _rules;
+    protected List<StringRule> _rules;
 
     public SantaStringChecker()
     {

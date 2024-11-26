@@ -7,7 +7,7 @@ public class SantaStringCheckerTests
     private readonly SantaStringChecker _santaStringChecker;
     public SantaStringCheckerTests()
     {
-        _santaStringChecker = new SantaStringChecker();
+        _santaStringChecker = new SantaStringCheckerPartOne();
     }
 
     [Fact]
