@@ -2,10 +2,10 @@ using FluentAssertions;
 
 namespace AoC._2015.day05.v1.Tests;
 
-public class SantaStringCheckerTests
+public class SantaStringCheckerPartOneTests
 {
     private readonly SantaStringChecker _santaStringChecker;
-    public SantaStringCheckerTests()
+    public SantaStringCheckerPartOneTests()
     {
         _santaStringChecker = new SantaStringCheckerPartOne();
     }
