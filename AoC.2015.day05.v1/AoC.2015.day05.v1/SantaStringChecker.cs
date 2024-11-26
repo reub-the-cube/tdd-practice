@@ -2,16 +2,7 @@ namespace AoC._2015.day05.v1;
 
 public abstract class SantaStringChecker : StringRule
 {
-    protected List<StringRule> _rules;
-
-    public SantaStringChecker()
-    {
-        _rules = [
-            new ForbiddenSequenceRule(),
-            new RepeatingLetterRule(),
-            new ThreeVowelsRule()
-        ];
-    }
+    protected List<StringRule> _rules = [];
 
     public override bool IsNice(string initialValue)
     {
