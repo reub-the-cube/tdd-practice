@@ -1071,7 +1071,6 @@ public class SantaTextFileTests
             numberOfNiceStrings.Should().Be(2);
         }
 
-
         [Fact]
         public void InputListForPartTwoHasXNiceStrings()
         {
@@ -2080,7 +2079,7 @@ public class SantaTextFileTests
 
             var numberOfNiceStrings = SantaTextFile.NumberOfNiceStringsForPartTwo(list);
 
-            numberOfNiceStrings.Should().Be(-1);
+            numberOfNiceStrings.Should().Be(51);
         }
     }
 }
