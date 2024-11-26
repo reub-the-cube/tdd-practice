@@ -68,6 +68,8 @@ public class RepeatingLetterRuleTests
     [InlineData("aaa")]
     [InlineData("aba")]
     [InlineData("bab")]
+    [InlineData("xyx")]
+    [InlineData("abcdefeghi")]
     public void RepeatingLetterWithAGapReturnsTrueForIsNice(string initialInput)
     {
         _rule = new RepeatingLetterRule(1);
