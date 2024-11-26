@@ -4,18 +4,9 @@
     {
         public override bool IsNice(string initialInput)
         {
-            if (initialInput == string.Empty)
-            {
-                return false;
-            }
-
             var stringPairs = Splitter.GetAllSubstrings(initialInput, 2);
-            if (stringPairs.Any(pair => initialInput.Split(pair).Length > 2))
-            {
-                return true;
-            }
-
-            return false;
+            var anyStringPairAppearsMoreThanOnce = stringPairs.Any(pair => initialInput.Split(pair).Length > 2);
+            return anyStringPairAppearsMoreThanOnce;
         }
     }
 }

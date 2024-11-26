@@ -13,18 +13,8 @@ public class RepeatingLetterRule : StringRule
 
     public override bool IsNice(string initialValue)
     {
-        if (ContainsSubstringThatStartsAndEndsInTheSameLetter(initialValue))
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    private bool ContainsSubstringThatStartsAndEndsInTheSameLetter(string initialInput)
-    {
-        var substrings = Splitter.GetAllSubstrings(initialInput, 2 + _gapBetweenRepeatingLetters);
-
-        return substrings.Any(s => s[0] == s[^1]);
+        var substrings = Splitter.GetAllSubstrings(initialValue, 2 + _gapBetweenRepeatingLetters);
+        var substringStartsAndEndsWithTheSameLetter = substrings.Any(s => s[0] == s[^1]);
+        return substringStartsAndEndsWithTheSameLetter;
     }
 }

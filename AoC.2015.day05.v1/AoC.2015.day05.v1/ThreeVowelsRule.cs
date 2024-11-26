@@ -4,11 +4,7 @@ public class ThreeVowelsRule : StringRule
 {
     public override bool IsNice(string initialValue)
     {
-        if (initialValue.Where("aeiou".Contains).Count() > 2)
-        {
-            return true;
-        }
-
-        return false;
+        var vowelCountIsMoreThreeOrMore = initialValue.Where("aeiou".Contains).Count() > 2;
+        return vowelCountIsMoreThreeOrMore;
     }
 }
