@@ -4,7 +4,7 @@ namespace AoC._2015.day05.v1.Tests;
 
 public class RepeatingLetterRuleTests
 {
-    private readonly RepeatingLetterRule _rule;
+    private RepeatingLetterRule _rule;
     public RepeatingLetterRuleTests()
     {
         _rule = new RepeatingLetterRule();
@@ -64,7 +64,20 @@ public class RepeatingLetterRuleTests
         isNice.Should().Be(false);
     }
 
+    [Theory]
+    [InlineData("aaa")]
+    [InlineData("aba")]
+    [InlineData("bab")]
+    [InlineData("xyx")]
+    [InlineData("abcdefeghi")]
+    public void RepeatingLetterWithAGapReturnsTrueForIsNice(string initialInput)
+    {
+        _rule = new RepeatingLetterRule(1);
 
+        var isNice = _rule.IsNice(initialInput);
+
+        isNice.Should().Be(true);
+    }
 }
 
 
