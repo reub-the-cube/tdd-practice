@@ -12,7 +12,6 @@ public class LightConfigurationTests
 
         lightingConfiguration.Execute(instruction);
 
-        lightingConfiguration.CurrentDisplayProperties().lightsOn.Should().Be(1);
-        lightingConfiguration.CurrentDisplayProperties().lightsOff.Should().Be(0);
+        lightingConfiguration.NumberOfLightsOn().Should().Be(1);
     }
 }

@@ -4,10 +4,11 @@ public class LightConfiguration
 {
     public void Execute(Instruction instruction)
     {
+
         throw new NotImplementedException();
     }
 
-    public DisplayProperties CurrentDisplayProperties()
+    public int NumberOfLightsOn()
     {
         throw new NotImplementedException();
     }
