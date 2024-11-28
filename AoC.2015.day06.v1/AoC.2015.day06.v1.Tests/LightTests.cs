@@ -87,8 +87,3 @@ public class LightTests
         }
     }
 }
-
-public record Position(int X, int Y)
-{
-
-}
