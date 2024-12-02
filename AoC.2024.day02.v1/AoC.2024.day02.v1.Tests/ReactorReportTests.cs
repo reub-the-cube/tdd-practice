@@ -104,7 +104,15 @@ namespace AoC._2024.day02.v1.Tests
 
             isSafe.Should().Be(false);
         }
+
+        [Fact]
+        public void AReportWithThreeDifferentNumbersThatDecreasesAndIncreasesIsSafeWithOneTolerance()
+        {
+            var report = new ReactorReport(["4", "3", "5"]);
+
+            var isSafe = report.IsSafeWithTolerance(1);
+
+            isSafe.Should().Be(true);
+        }
     }
 }
-
-// Decreasing numbers

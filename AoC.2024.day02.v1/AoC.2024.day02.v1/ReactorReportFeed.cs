@@ -17,7 +17,7 @@
                 .Select(r => r.Split(" ", StringSplitOptions.RemoveEmptyEntries))
                 .Select(r => new ReactorReport([.. r]));
 
-            return reportInputs.Count(r => r.IsSafe());
+            return reportInputs.Count(r => r.IsSafeWithTolerance(tolerance));
         }
     }
 }

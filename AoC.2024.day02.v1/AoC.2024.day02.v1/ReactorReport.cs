@@ -12,6 +12,13 @@
             return IsStillSafe();
         }
 
+        public bool IsSafeWithTolerance(int toleranceLevel)
+        {
+            var reportConfigurations = ProblemDampener.GetConfigurations(_reportInput, toleranceLevel);
+            var configAsReportInputs = reportConfigurations.Select(c => c.Select(r => r.ToString()).ToList());
+            return configAsReportInputs.Select(r => new ReactorReport(r)).Any(r => r.IsSafe());
+        }
+
         private void SetInitialLevelDirection()
         {
             if (_reportInput.Count > 1)

@@ -13,10 +13,18 @@ public class InputTests
     }
 
     [Fact]
-    public void InputTextReturnsTwoSafeReports()
+    public void InputTextReturnsCorrectNumberOfSafeReportsForPartOne()
     {
         var numberOfSafeReports = ReactorReportFeed.CountNumberOfSafeReports(inputText);
 
         numberOfSafeReports.Should().Be(287);
+    }
+
+    [Fact]
+    public void InputTextReturnsCorrectNumberOfSafeReportsForPartTwo()
+    {
+        var numberOfSafeReports = ReactorReportFeed.CountNumberOfSafeReports(inputText, 1);
+
+        numberOfSafeReports.Should().Be(354);
     }
 }
