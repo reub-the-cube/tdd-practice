@@ -6,9 +6,17 @@ public class InputTests
 {
     private readonly IEnumerable<string> inputText = File.ReadAllLines("input.txt");
 
-        [Fact]
+    [Fact]
     public void InputTextHasBeenRead()
     {
         inputText.Should().HaveCount(1000);
+    }
+
+    [Fact]
+    public void InputTextReturnsTwoSafeReports()
+    {
+        var numberOfSafeReports = ReactorReportFeed.CountNumberOfSafeReports(inputText);
+
+        numberOfSafeReports.Should().Be(287);
     }
 }

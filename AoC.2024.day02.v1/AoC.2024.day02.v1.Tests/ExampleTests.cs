@@ -19,4 +19,12 @@ public class ExampleTests
 
         numberOfSafeReports.Should().Be(2);
     }
+
+    [Fact]
+    public void ExampleTextReturnsFourSafeReportsForPartTwo()
+    {
+        var numberOfSafeReports = ReactorReportFeed.CountNumberOfSafeReports(exampleText, 1);
+
+        numberOfSafeReports.Should().Be(4);
+    }
 }
