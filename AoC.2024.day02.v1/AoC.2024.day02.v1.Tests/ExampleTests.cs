@@ -11,4 +11,12 @@ public class ExampleTests
     {
         exampleText.Should().HaveCount(6);
     }
+
+    [Fact]
+    public void ExampleTextReturnsTwoSafeReports()
+    {
+        var numberOfSafeReports = ReactorReportFeed.CountNumberOfSafeReports(exampleText);
+
+        numberOfSafeReports.Should().Be(2);
+    }
 }
