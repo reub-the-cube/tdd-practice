@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace AoC._2024.day03.v1;
@@ -19,6 +20,33 @@ public class MemoryInterpreter
     {
         var match = _multiplicationInstructionRegex.Match(fromCorruptedString);
         return MapToMultiplicationInstruction(match);
+    }
+
+    public static string ExcludeDisabledInstructionsFrom(IEnumerable<string> corruptedMemory)
+    {
+        var fullCorruptedMemory = string.Join(string.Empty, corruptedMemory);
+        var memoryBetweenDontInstructions = fullCorruptedMemory.Split(@"don't()");
+
+        var enabledMemoryInputs = new List<string> { memoryBetweenDontInstructions[0] };
+        enabledMemoryInputs.AddRange(memoryBetweenDontInstructions
+            .Skip(1)
+            .Select(GetEnabledMemoryInputWhenStartingOnDisabled));
+            
+        return string.Join(string.Empty, enabledMemoryInputs);
+    }
+
+    private static string GetEnabledMemoryInputWhenStartingOnDisabled(string corruptedMemory)
+    {
+        var memoryBetweenDoInstructions = corruptedMemory.Split(@"do()");
+
+        if (memoryBetweenDoInstructions.Length > 1)
+        {
+            return string.Join(string.Empty, memoryBetweenDoInstructions.Skip(1));
+        }
+        else
+        {
+            return string.Empty;
+        }
     }
 
     private static MultiplicationInstruction MapToMultiplicationInstruction(Match corruptedStringMatch)

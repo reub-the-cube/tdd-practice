@@ -75,4 +75,31 @@ public class MemoryInterpreterTests
             actualInstruction.Result.Should().Be(15);
         }
     }
+
+    public class ExcludeDisabledInstructionsFrom
+    {
+        [Fact]
+        public void HasASingleInstructionRemaining()
+        {
+            var corruptedMemory = new List<string> { @"sdoinf'don't()mul(1,3)mul(1,4)do()mul(1,5)don't()mul(4,5)" };
+
+            var reducedInstructionInput = MemoryInterpreter.ExcludeDisabledInstructionsFrom(corruptedMemory);
+            var reducedInstructions = MemoryInterpreter.GetInstructionsFrom([ reducedInstructionInput ]);
+
+            reducedInstructions.Should().HaveCount(1);
+        }
+
+        [Fact]
+        public void HasIncludedInstructionRemainingFromMultipleInputs()
+        {
+            var corruptedMemory = new List<string> { 
+                @"sdoinf'don't()mul(1,3)mul(1,4)do()mul(1,5)don't()mul(4,5)", 
+                @"mul(6,8)do()mul(2,4)do()mul(9,8)don't()blahmul(4,5)mul(90,4)do()mul(10,10)" };
+
+            var reducedInstructionInput = MemoryInterpreter.ExcludeDisabledInstructionsFrom(corruptedMemory);
+            var reducedInstructions = MemoryInterpreter.GetInstructionsFrom([reducedInstructionInput]);
+
+            reducedInstructions.Should().HaveCount(4);
+        }
+    }
 }
