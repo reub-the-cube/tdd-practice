@@ -11,4 +11,12 @@ public class InputTests
     {
         inputText.Should().HaveCount(6);
     }
+
+    [Fact]
+    public void InputTextResultIs161ForPartOne()
+    {
+        var instructions = MemoryInterpreter.GetInstructionsFrom(inputText);
+
+        instructions.Sum(i => i.Result).Should().Be(161289189);
+    }
 }
