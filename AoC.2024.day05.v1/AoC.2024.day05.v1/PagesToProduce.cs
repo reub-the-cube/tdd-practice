@@ -2,12 +2,17 @@
 {
     public class PagesToProduce(List<OrderingRule> orderingRules, List<int> pages)
     {
-        private List<List<OrderingRule>> RulesPerPage => pages.Select(p => orderingRules.Where(r => r.AppliesTo(p)).ToList()).ToList();
+        private List<List<OrderingRule>> RulesPerPage => pages.Select(p => orderingRules.Where(r => r.AppliesTo(pages)).Where(r => r.AppliesTo(p)).ToList()).ToList();
 
         public bool IsInOrder()
         {
             var allMet = NextPageRulesAreMet(RulesPerPage);
             return allMet;
+        }
+
+        public int MiddlePage()
+        {
+            return pages[(pages.Count - 1) / 2];
         }
 
         private bool NextPageRulesAreMet(List<List<OrderingRule>> pageRules)

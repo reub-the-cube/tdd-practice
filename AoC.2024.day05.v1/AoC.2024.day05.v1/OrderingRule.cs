@@ -11,6 +11,11 @@
             return false;
         }
 
+        public bool AppliesTo(IEnumerable<int> pagesToProduce)
+        {
+            return pagesToProduce.Contains(x) && pagesToProduce.Contains(y);
+        }
+
         public bool IsMet(List<int> update)
         {
             return update.IndexOf(x) < update.IndexOf(y);

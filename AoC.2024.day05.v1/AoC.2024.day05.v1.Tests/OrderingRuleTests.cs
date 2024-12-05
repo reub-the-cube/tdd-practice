@@ -54,6 +54,30 @@ namespace AoC._2024.day05.v1.Tests
 
                 appliesTo.Should().BeFalse();
             }
+
+            [Fact]
+            public void ReturnsTrueWhenXAndYAreInThePageList()
+            {
+                var appliesTo = _orderingRule.AppliesTo([2, 3, 4, 5]);
+
+                appliesTo.Should().BeTrue();
+            }
+
+            [Fact]
+            public void ReturnsFalseWhenYIsNotInThePageList()
+            {
+                var appliesTo = _orderingRule.AppliesTo([2, 3, 5]);
+
+                appliesTo.Should().BeFalse();
+            }
+
+            [Fact]
+            public void ReturnsFalseWhenXIsNotInThePageList()
+            {
+                var appliesTo = _orderingRule.AppliesTo([2, 4, 5]);
+
+                appliesTo.Should().BeFalse();
+            }
         }
 
     }

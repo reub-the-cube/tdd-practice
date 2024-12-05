@@ -11,5 +11,15 @@ namespace AoC._2024.day05.v1.Tests
         {
             exampleText.Should().HaveCount(28);
         }
+
+        [Fact]
+        public void ExampleTextHasThreeCorrectlyOrderedUpdatesForPartOne()
+        {
+            var protocol = new SafetyManualProtocol(exampleText);
+
+            var numberOfCorrectlyOrderedUpdates = protocol.NumberOfCorrectUpdates();
+
+            numberOfCorrectlyOrderedUpdates.Should().Be(3);
+        }
     }
 }
