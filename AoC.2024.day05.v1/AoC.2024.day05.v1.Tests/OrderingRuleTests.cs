@@ -57,7 +57,6 @@ namespace AoC._2024.day05.v1.Tests
         }
 
     }
-
 }
 
 /*
