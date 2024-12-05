@@ -12,6 +12,13 @@ namespace AoC._2024.day04.v1.Tests
             "XYZXYZ"
         };
 
+        private readonly string[] x_masInput =
+        {
+            "SASASMSSSMSMSMSMSSMSAMXMAMAMXSXXXMAMMXSAMXMXMXSMMMXXXSXXAXSMMMAMXAXSMSSXXMSASASMXSSMSMSXMMMAMMMXXSAMXSSMXAXSASMMMXMASAXSXMXMAMXAMXXMAXXAMAMX",
+            "AASAXAAAAXXASASMXSAXAMXXSMSSMSAXSMSMMASAMAAXMAMAAAMMMMMSMXSAMXSSMSMXMAXMASXAXAMXAAXMAMXAMASAMAAMXMASAMAAMSMSASASMMMMAMSXSMASMMSMSMMASMMMSAMA",
+            "MXMXMMMSMMMMMAMXAMXMSSSMAXAAXMAMAAAXMASASMSXMASMMXSAAAAAMAXAMAXAAXAAMXMAMXMSMSMMXMASMSMXSASAXXXSASXMASXMMXAMMMAMMAXMXMMAXXAMAAAAAAMAMAAXSAMA"
+        };
+
         /*
          * 3 letter match examples
          * x FOO 1 forwards
@@ -21,9 +28,14 @@ namespace AoC._2024.day04.v1.Tests
          * x XYZ 2 on same row
          * x FBC, OBA, ZBA, ZDC 1 diagonal
          * x BCDC 2 forwards, 2 backwards
-         * BCR 2 diagonal
          * x BCD 2 forwards, 2 backwards, 1 diagonal
+         * 
+         *  M.S     M.M     S.M     S.S
+         *  .A.     .A.     .A.     .A.
+         *  M.S     S.S     S.M     M.M
          */
+
+        // Looking for a 3x3 block with exactly two MAS diagonals
 
         private readonly WordSearch _wordSearch;
         public WordsearchTests()
@@ -125,6 +137,16 @@ namespace AoC._2024.day04.v1.Tests
             var occurrences = _wordSearch.FindOccurrencesOf("BCD");
 
             occurrences.Should().Be(5);
+        }
+
+        [Fact]
+        public void FirstLinesOfInputFindsMASInAnXShape()
+        {
+            var wordSearch = new WordSearch(x_masInput);
+
+            var occurences = wordSearch.FindXShapeOccurrencesOf("MAS");
+
+            occurences.Should().Be(21);
         }
     }
 }

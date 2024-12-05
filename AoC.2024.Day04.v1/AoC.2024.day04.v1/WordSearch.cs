@@ -13,6 +13,29 @@
             return rowOccurrences + columnOccurrences + diagonalOccurences;
         }
 
+        public int FindXShapeOccurrencesOf(string word)
+        {
+            int diagonalOccurences = 0;// solver.CountOccurrencesIn(GetDiagonals(word.Length));
+
+            for (int i = 0; i < letterDistribution.Length - word.Length + 1; i++)
+            {
+                var rowCount = 0;
+                var downAndRightDiagonals = GetDiagonalsForRow(i, word.Length, true).ToList();
+                var downAndLeftDiagonals = GetDiagonalsForRow(i, word.Length, false).ToList();
+                for (int j = 0; j < downAndLeftDiagonals.Count; j++)
+                {
+                    string reversedWord = new(word.Reverse().ToArray());
+                    if ((downAndLeftDiagonals[j] == word || downAndLeftDiagonals[j] == reversedWord) &&
+                        (downAndRightDiagonals[j] == word || downAndRightDiagonals[j] == reversedWord))
+                        rowCount++;
+                }
+                diagonalOccurences += rowCount;
+            }
+
+
+            return diagonalOccurences;
+        } 
+
         private IEnumerable<string> GetColumns()
         {
             return Transpose(letterDistribution);

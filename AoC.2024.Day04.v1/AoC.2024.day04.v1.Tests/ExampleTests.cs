@@ -21,4 +21,14 @@ public class ExampleTests
 
         numberOfOccurrences.Should().Be(18);
     }
+
+    [Fact]
+    public void ExampleTextForPartTwoReturns9InstancesOfMASInAnXShape()
+    {
+        var wordsearch = new WordSearch(exampleText);
+
+        var numberOfOccurrences = wordsearch.FindXShapeOccurrencesOf("MAS");
+
+        numberOfOccurrences.Should().Be(9);
+    }
 }
