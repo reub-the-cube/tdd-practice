@@ -15,25 +15,12 @@
 
         public int FindXShapeOccurrencesOf(string word)
         {
-            int diagonalOccurences = 0;// solver.CountOccurrencesIn(GetDiagonals(word.Length));
+            var solver = new Solver(word);
 
-            for (int i = 0; i < letterDistribution.Length - word.Length + 1; i++)
-            {
-                var rowCount = 0;
-                var downAndRightDiagonals = GetDiagonalsForRow(i, word.Length, true).ToList();
-                var downAndLeftDiagonals = GetDiagonalsForRow(i, word.Length, false).ToList();
-                for (int j = 0; j < downAndLeftDiagonals.Count; j++)
-                {
-                    string reversedWord = new(word.Reverse().ToArray());
-                    if ((downAndLeftDiagonals[j] == word || downAndLeftDiagonals[j] == reversedWord) &&
-                        (downAndRightDiagonals[j] == word || downAndRightDiagonals[j] == reversedWord))
-                        rowCount++;
-                }
-                diagonalOccurences += rowCount;
-            }
+            var candidateRowIndexes = Enumerable.Range(0, letterDistribution.Length - word.Length + 1);
+            int diagonalOccurrences = candidateRowIndexes.Sum(i => CountDiagonalsForRow(i, word.Length, solver));
 
-
-            return diagonalOccurences;
+            return diagonalOccurrences;
         } 
 
         private IEnumerable<string> GetColumns()
@@ -44,11 +31,18 @@
         private List<string> GetDiagonals(int length)
         {
             var rowsIndexesWithDiagonals = Enumerable.Range(0, letterDistribution.Length - length + 1);
-            var downAndRightDiagonals = rowsIndexesWithDiagonals.SelectMany(row => GetDiagonalsForRow(row, length, true)).ToList();
-            var downAndLeftDiagonals = rowsIndexesWithDiagonals.SelectMany(row => GetDiagonalsForRow(row, length, false)).ToList();
+            var diagonals = rowsIndexesWithDiagonals.SelectMany(row => GetDiagonalsForRow(row, length, true)).ToList();
+            diagonals.AddRange(rowsIndexesWithDiagonals.SelectMany(row => GetDiagonalsForRow(row, length, false)).ToList());
 
-            downAndRightDiagonals.AddRange(downAndLeftDiagonals);
-            return downAndRightDiagonals;
+            return diagonals;
+        }
+
+        private int CountDiagonalsForRow(int row, int length, Solver solver)
+        {
+            var downAndRight = GetDiagonalsForRow(row, length, true).ToList();
+            var downAndLeft = GetDiagonalsForRow(row, length, false).ToList();
+
+            return solver.CountOccurrencesIn([downAndLeft, downAndRight]);
         }
 
         private IEnumerable<string> GetDiagonalsForRow(int row, int length, bool outFromTop)
