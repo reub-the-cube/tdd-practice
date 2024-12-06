@@ -1,18 +1,82 @@
-using System.Formats.Asn1;
+using FluentAssertions;
 
 namespace AoC._2024.day06.v1.Tests;
 
 public class GuardTests
 {
-    [Fact]
-    public void PatrolAnAreaReturnsVisitedPositions()
+    public class GetPatrolRoute
     {
-        var guard = new Guard();
-        var lab = new Lab();
-        var startingPosition = new Position(3, 5, 0);
+        private readonly Lab Lab;
 
-        var visitedPositions = guard.Patrol(area, startingPosition);
+        public GetPatrolRoute()
+        {
+            Lab = LabTests.MakeTestLab();
+        }
 
-        visitedPositions.Should().HaveCount(1);
+        [Fact]
+        public void ReturnsOneVisitedPositionWhenStartingOnEdgeOfAreaAndFacingOut()
+        {
+            var startingPosition = new Position(2, 9);
+            var guard = new Guard(startingPosition, Direction.Up);
+
+            var route = guard.GetPatrolRoute(Lab);
+
+            route.Should().HaveCount(1);
+        }
+
+        [Fact]
+        public void ReturnsTwoVisitedPositionsWhenStartingNearEdgeOfAreaWithClearPathOut()
+        {
+            var startingPosition = new Position(3, 8);
+            var guard = new Guard(startingPosition, Direction.Up);
+
+            var route = guard.GetPatrolRoute(Lab);
+
+            route.Should().HaveCount(2);
+        }
+
+        [Fact]
+        public void ReturnsThreeVisitedPositionsWhenStartingNearEdgeOfAreaWithClearPathOut()
+        {
+            var startingPosition = new Position(6, 7);
+            var guard = new Guard(startingPosition, Direction.Up);
+
+            var route = guard.GetPatrolRoute(Lab);
+
+            route.Should().HaveCount(3);
+        }
+
+        [Fact]
+        public void ReturnsOneVisitedPositionWhenObstacleForcesImmediateExit()
+        {
+            var startingPosition = new Position(9, 7);
+            var guard = new Guard(startingPosition, Direction.Up);
+
+            var route = guard.GetPatrolRoute(Lab);
+
+            route.Should().HaveCount(1);
+        }
+
+        [Fact]
+        public void ReturnsTwoVisitedPositionWhenObstacleForcesQuickExit()
+        {
+            var startingPosition = new Position(2, 8);
+            var guard = new Guard(startingPosition, Direction.Down);
+
+            var route = guard.GetPatrolRoute(Lab);
+
+            route.Should().HaveCount(4);
+        }
+
+        [Fact]
+        public void ReturnsVisitedPositionsWhenGuardMakesAFewTurns()
+        {
+            var startingPosition = new Position(3, 1);
+            var guard = new Guard(startingPosition, Direction.Left);
+
+            var route = guard.GetPatrolRoute(Lab);
+
+            route.Should().HaveCount(12);
+        }
     }
 }
