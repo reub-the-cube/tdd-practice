@@ -2,6 +2,12 @@
 {
     public class Lab(Position oppositeCorner, List<Position> obstacles)
     {
+        public static Lab InitialiseFrom(string[] inputData)
+        {
+            var oppositeCorner = new Position(inputData[0].Length, inputData.Length);
+            return new Lab(oppositeCorner, InputParser.GetObstaclesFromInput(inputData));
+        }
+
         public bool CanMoveTo(Position target)
         {
             return IsInBounds(target) && !IsBlocked(target);

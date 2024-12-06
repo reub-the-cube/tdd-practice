@@ -43,6 +43,19 @@ namespace AoC._2024.day06.v1.Tests
 
         }
 
+        public class MakeLab
+        {
+            [Fact]
+            public void CanMakeLabFromExampleData()
+            {
+                var exampleData = File.ReadAllLines("example.txt");
+
+                var lab = Lab.InitialiseFrom(exampleData);
+
+                lab.IsBlocked(new Position(1, 3)).Should().Be(true);
+            }
+        }
+
         internal static Lab MakeTestLab()
         {
             /*
