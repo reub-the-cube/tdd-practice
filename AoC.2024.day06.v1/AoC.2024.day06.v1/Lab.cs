@@ -4,7 +4,7 @@
     {
         public static Lab InitialiseFrom(string[] inputData)
         {
-            var oppositeCorner = new Position(inputData[0].Length, inputData.Length);
+            var oppositeCorner = new Position(inputData[0].Length - 1, inputData.Length - 1);
             return new Lab(oppositeCorner, InputParser.GetObstaclesFromInput(inputData));
         }
 
