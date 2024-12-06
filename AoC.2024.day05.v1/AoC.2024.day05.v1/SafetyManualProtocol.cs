@@ -43,19 +43,19 @@
                 .Where(p => p.IsInOrder() == isInCorrectOrder);
         }
 
-        private List<OrderingRule> CreateOrderingRules(IEnumerable<string> ruleRows)
+        private static List<OrderingRule> CreateOrderingRules(IEnumerable<string> ruleRows)
         {
             return ruleRows.Select(CreateOrderingRule).ToList();
         }
 
-        private OrderingRule CreateOrderingRule(string inputRow)
+        private static OrderingRule CreateOrderingRule(string inputRow)
         {
             var xAndY = inputRow.Split('|');
             
             return new(int.Parse(xAndY[0]), int.Parse(xAndY[1]));
         }
 
-        private List<List<int>> CreatePagesToProduce(IEnumerable<string> pagesToProduceRows)
+        private static List<List<int>> CreatePagesToProduce(IEnumerable<string> pagesToProduceRows)
         {
             return pagesToProduceRows.Select(p =>
             {
