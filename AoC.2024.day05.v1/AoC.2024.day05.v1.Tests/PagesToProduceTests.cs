@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using System.Security;
 
 namespace AoC._2024.day05.v1.Tests
 {
@@ -57,6 +56,48 @@ namespace AoC._2024.day05.v1.Tests
                 var isInOrder = pagesToProduce.IsInOrder();
 
                 isInOrder.Should().BeTrue();
+            }
+        }
+
+        public class Reorder
+        {
+            [Fact]
+            public void ReturnsNewOrderThatIsInOrderWithLengthOfTwo()
+            {
+                var ruleSet = new List<OrderingRule>() { new(3, 4) };
+                var pages = new List<int>() { 4, 3 };
+
+                var pagesToProduce = new PagesToProduce(ruleSet, pages);
+
+                _ = pagesToProduce.Reorder();
+
+                pagesToProduce.IsInOrder().Should().BeTrue();
+            }
+
+            [Fact]
+            public void ReturnsNewOrderThatIsInOrderWhenAlreadyInOrder()
+            {
+                var ruleSet = new List<OrderingRule>() { new(3, 4) };
+                var pages = new List<int>() { 3, 4 };
+
+                var pagesToProduce = new PagesToProduce(ruleSet, pages);
+
+                _ = pagesToProduce.Reorder();
+
+                pagesToProduce.IsInOrder().Should().BeTrue();
+            }
+
+            [Fact]
+            public void ReturnsNewOrderThatIsInOrderWithALengthOfThree()
+            {
+                var ruleSet = new List<OrderingRule>() { new(3, 4), new(5, 3) };
+                var pages = new List<int>() { 5, 4, 3 };
+
+                var pagesToProduce = new PagesToProduce(ruleSet, pages);
+
+                _ = pagesToProduce.Reorder();
+
+                pagesToProduce.IsInOrder().Should().BeTrue();
             }
         }
     }

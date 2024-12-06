@@ -21,5 +21,15 @@ namespace AoC._2024.day05.v1.Tests
 
             middleNumberOfEachCorrectUpdate.Sum().Should().Be(5391);
         }
+
+        [Fact]
+        public void InputTextHasMiddlePageNumberSumOfXForPartTwo()
+        {
+            var protocol = new SafetyManualProtocol(inputText);
+
+            var middleNumberOfEachCorrectUpdate = protocol.MiddleNumberOfEachIncorrectUpdate();
+
+            middleNumberOfEachCorrectUpdate.Sum().Should().Be(6142);
+        }
     }
 }

@@ -15,21 +15,32 @@
 
         public List<int> MiddleNumberOfEachCorrectUpdate()
         {
-            var correctlyOrderedUpdates = CorrectlyOrderedUpdates();
+            var correctlyOrderedUpdates = GetOrderedUpdates(true);
             return correctlyOrderedUpdates.Select(p => p.MiddlePage()).ToList();
+        }
+
+        public List<int> MiddleNumberOfEachIncorrectUpdate()
+        {
+            var incorrectlyOrderedUpdates = GetOrderedUpdates(false);
+            return incorrectlyOrderedUpdates
+                .Select(p => {
+                    p.Reorder();
+                    return p.MiddlePage();
+                })
+                .ToList();
         }
 
         public int NumberOfCorrectUpdates()
         {
-            var correctlyOrderedUpdates = CorrectlyOrderedUpdates();
+            var correctlyOrderedUpdates = GetOrderedUpdates(true);
             return correctlyOrderedUpdates.Count();
         }
 
-        private IEnumerable<PagesToProduce> CorrectlyOrderedUpdates()
+        private IEnumerable<PagesToProduce> GetOrderedUpdates(bool isInCorrectOrder)
         {
             return PagesToProduce
                 .Select(p => new PagesToProduce(Rules, p))
-                .Where(p => p.IsInOrder());
+                .Where(p => p.IsInOrder() == isInCorrectOrder);
         }
 
         private List<OrderingRule> CreateOrderingRules(IEnumerable<string> ruleRows)
