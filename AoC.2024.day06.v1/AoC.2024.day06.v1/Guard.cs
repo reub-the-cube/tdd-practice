@@ -2,68 +2,98 @@
 {
     public class Guard
     {
-        private Position _currentPosition;
-        private Direction _directionFacing;
-        private readonly Dictionary<Position, List<Direction>> _visitedDirectionalPositions = [];
+        private RoutePosition _startingPosition;
+        private RoutePosition _currentPosition;
+        private Route _route = new();
+        private List<Route> _escapeRoutes = [];
 
-        private static readonly Dictionary<Direction, Direction> _nextDirection = new() { 
-            { Direction.Up, Direction.Right }, 
-            { Direction.Right, Direction.Down }, 
-            { Direction.Down, Direction.Left }, 
-            { Direction.Left, Direction.Up }
-        };
 
         public Guard(Position position, Direction directionFacing)
         {
-            _currentPosition = position;
-            _directionFacing = directionFacing;
-            AddDirectionalPosition();
+            _startingPosition = new(position, directionFacing);
+            _currentPosition = new(position, directionFacing);
+            _route.TryAdd(_currentPosition.Position, _currentPosition.Direction);
+        }
+
+        public Guard Clone()
+        {
+            var startingPosition = _route.TheStart();
+            return new Guard(startingPosition.Position, startingPosition.Direction);
         }
 
         public List<Position> GetPatrolRoute(Lab lab)
         {
+            _route = new();
+            _route.TryAdd(_startingPosition.Position, _startingPosition.Direction);
+            _currentPosition = _startingPosition;
+
             Move(lab);
 
-            return [.. _visitedDirectionalPositions.Keys];
+            if (!_route.Repeats())
+            {
+                _escapeRoutes.Add(_route);
+            }
+
+            return _route.PositionsVisited();
+        }
+
+        public List<Position> GetPatrolRoute(Lab lab, Guard something)
+        {
+            Move(lab);
+
+            return _route.PositionsVisited();
         }
 
         public bool HasBeenHereBefore()
         {
-            return _visitedDirectionalPositions[_currentPosition].GroupBy(x => x).Any(p => p.Count() > 1);
+            return _route.Repeats();
         }
 
-        private void AddDirectionalPosition()
+        public bool PassesThrough(Position position)
         {
-            _visitedDirectionalPositions.TryAdd(_currentPosition, []);
-            _visitedDirectionalPositions[_currentPosition].Add(_directionFacing);
+            return _route.GoesThrough(position);
         }
 
         private bool Move(Lab lab)
         {
-            var nextPosition = _currentPosition.Next(_directionFacing);
-            if (lab.IsBlocked(nextPosition))
+            TurnAsRequired(lab);
+            if (StepForward(lab))
             {
-                Turn();
-                nextPosition = _currentPosition.Next(_directionFacing);
-            }
-
-            if (lab.CanMoveTo(nextPosition))
-            {
-                _currentPosition = nextPosition;
-                AddDirectionalPosition();
-
-                if (!HasBeenHereBefore())
-                {
-                    return Move(lab);
-                }
+                return Move(lab);
             }
 
             return false;
         }
 
-        private void Turn()
+        private void TurnAsRequired(Lab lab)
         {
-            _directionFacing = _nextDirection[_directionFacing];
+            _currentPosition = PositionAfterTurning(_currentPosition, lab);
+        }
+
+        private bool StepForward(Lab lab)
+        {
+            var nextPosition = _currentPosition.Next();
+
+            if (lab.CanMoveTo(nextPosition.Position))
+            {
+                _currentPosition = nextPosition;
+                bool newPosition = _route.TryAdd(_currentPosition.Position, _currentPosition.Direction);
+                return newPosition;
+            }
+
+            return false;
+        }
+
+        private RoutePosition PositionAfterTurning(RoutePosition position, Lab lab)
+        {
+            if (lab.IsBlocked(position.Next().Position))
+            {
+                position = position.Turn();
+                _route.TryAdd(position.Position, position.Direction);
+                return PositionAfterTurning(position, lab);
+            }
+
+            return position;
         }
     }
 

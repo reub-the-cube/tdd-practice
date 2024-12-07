@@ -21,7 +21,7 @@ public class GuardTests
 
             var route = guard.GetPatrolRoute(Lab);
 
-            route.Should().HaveCount(1);
+            route.Distinct().Should().HaveCount(1);
         }
 
         [Fact]
@@ -32,7 +32,7 @@ public class GuardTests
 
             var route = guard.GetPatrolRoute(Lab);
 
-            route.Should().HaveCount(2);
+            route.Distinct().Should().HaveCount(2);
         }
 
         [Fact]
@@ -43,7 +43,7 @@ public class GuardTests
 
             var route = guard.GetPatrolRoute(Lab);
 
-            route.Should().HaveCount(3);
+            route.Distinct().Should().HaveCount(3);
         }
 
         [Fact]
@@ -54,7 +54,7 @@ public class GuardTests
 
             var route = guard.GetPatrolRoute(Lab);
 
-            route.Should().HaveCount(1);
+            route.Distinct().Should().HaveCount(1);
         }
 
         [Fact]
@@ -65,7 +65,7 @@ public class GuardTests
 
             var route = guard.GetPatrolRoute(Lab);
 
-            route.Should().HaveCount(4);
+            route.Distinct().Should().HaveCount(4);
         }
 
         [Fact]
@@ -76,7 +76,7 @@ public class GuardTests
 
             var route = guard.GetPatrolRoute(Lab);
 
-            route.Should().HaveCount(12);
+            route.Distinct().Should().HaveCount(12);
         }
 
         [Fact]
@@ -86,7 +86,7 @@ public class GuardTests
             var loopLab = LabTests.MakeTestLoopLab();
             var guard = new Guard(startingPosition, Direction.Up);
 
-            var route = guard.GetPatrolRoute(loopLab);
+            _ = guard.GetPatrolRoute(loopLab);
 
             guard.HasBeenHereBefore().Should().Be(true);
         }

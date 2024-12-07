@@ -18,7 +18,7 @@ namespace AoC._2024.day06.v1.Tests
         }
 
         [Fact]
-        public void ExampleDataReturnsXLoopsForPartOne()
+        public void ExampleDataReturnsXLoopsForPartTwo()
         {
             var exampleData = File.ReadAllLines("example.txt");
 
