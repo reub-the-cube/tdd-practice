@@ -49,10 +49,8 @@
 
         private bool IsALoopWithATempObstacle(Position obstacleToPlace, Guard originalGuard)
         {
-            var tempGuard = originalGuard.Clone();
-
             obstacles.Add(obstacleToPlace);
-            _ = tempGuard.GetPatrolRoute(this, originalGuard);
+            _ = originalGuard.GetPatrolRoute(this);
             obstacles.Remove(obstacleToPlace);
 
             if (obstacleToPlace.Y % 45 == 0)
@@ -60,7 +58,7 @@
                 Console.WriteLine($"{obstacleToPlace.X} of {oppositeCorner.X} - {obstacleToPlace.Y} of {oppositeCorner.Y}");
             }
 
-            return tempGuard.HasBeenHereBefore();
+            return originalGuard.HasBeenHereBefore();
         }
 
         private bool IsInBounds(Position target)

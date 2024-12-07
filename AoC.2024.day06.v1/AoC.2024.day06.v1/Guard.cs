@@ -1,25 +1,11 @@
 ﻿namespace AoC._2024.day06.v1
 {
-    public class Guard
+    public class Guard(Position position, Direction directionFacing)
     {
-        private RoutePosition _startingPosition;
-        private RoutePosition _currentPosition;
+        private readonly RoutePosition _startingPosition = new(position, directionFacing);
+        private RoutePosition _currentPosition = new(position, directionFacing);
         private Route _route = new();
         private List<Route> _escapeRoutes = [];
-
-
-        public Guard(Position position, Direction directionFacing)
-        {
-            _startingPosition = new(position, directionFacing);
-            _currentPosition = new(position, directionFacing);
-            _route.TryAdd(_currentPosition.Position, _currentPosition.Direction);
-        }
-
-        public Guard Clone()
-        {
-            var startingPosition = _route.TheStart();
-            return new Guard(startingPosition.Position, startingPosition.Direction);
-        }
 
         public List<Position> GetPatrolRoute(Lab lab)
         {
@@ -37,13 +23,6 @@
             return _route.PositionsVisited();
         }
 
-        public List<Position> GetPatrolRoute(Lab lab, Guard something)
-        {
-            Move(lab);
-
-            return _route.PositionsVisited();
-        }
-
         public bool HasBeenHereBefore()
         {
             return _route.Repeats();
@@ -56,7 +35,7 @@
 
         private bool Move(Lab lab)
         {
-            TurnAsRequired(lab);
+            Turn(lab);
             if (StepForward(lab))
             {
                 return Move(lab);
@@ -65,9 +44,14 @@
             return false;
         }
 
-        private void TurnAsRequired(Lab lab)
+        private void Turn(Lab lab)
         {
-            _currentPosition = PositionAfterTurning(_currentPosition, lab);
+            if (lab.IsBlocked(_currentPosition.Next().Position))
+            {
+                _currentPosition = _currentPosition.Turn();
+                _route.TryAdd(_currentPosition.Position, _currentPosition.Direction);
+                Turn(lab);
+            }
         }
 
         private bool StepForward(Lab lab)
@@ -82,18 +66,6 @@
             }
 
             return false;
-        }
-
-        private RoutePosition PositionAfterTurning(RoutePosition position, Lab lab)
-        {
-            if (lab.IsBlocked(position.Next().Position))
-            {
-                position = position.Turn();
-                _route.TryAdd(position.Position, position.Direction);
-                return PositionAfterTurning(position, lab);
-            }
-
-            return position;
         }
     }
 
