@@ -43,6 +43,17 @@ namespace AoC._2024.day06.v1.Tests
 
         }
 
+        public class PossibleLoops : LabTests
+        {
+            [Fact]
+            public void ReturnsSixLoopsIfThereWereAnotherObstruction()
+            {
+                var possibleLoops = Lab.PossibleLoopsWithAdditionalObstacle(new Position(4, 3), Direction.Up);
+
+                possibleLoops.Should().Be(6);
+            }
+        }
+
         public class MakeLab
         {
             [Fact]
@@ -74,6 +85,29 @@ namespace AoC._2024.day06.v1.Tests
             var obstactles = new List<Position>
             {
                 new(0, 1), new(1, 3), new(2,6), new(4,9), new(6, 0), new(7, 5), new(8,2), new(9,8)
+            };
+
+            return new Lab(new(9, 9), obstactles);
+        }
+
+        internal static Lab MakeTestLoopLab()
+        {
+            /*
+                  9 ....#.....
+                  8 .........#
+                  7 ..........
+                  6 ..#.......
+                  5 .......#..
+                  4 ..........
+                  3 .#.O......
+                  2 ........#.
+                  1 #.........
+                  0 ......#...
+                    0123456789
+             */
+            var obstactles = new List<Position>
+            {
+                new(0, 1), new(1, 3), new(2,6), new(3, 3), new(4,9), new(6, 0), new(7, 5), new(8,2), new(9,8)
             };
 
             return new Lab(new(9, 9), obstactles);

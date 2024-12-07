@@ -4,10 +4,17 @@
     {
         public static Guard FindGuard(string[] inputData)
         {
+            var (startPosition, facing) = FindStartingPositionAndDirection(inputData);
+
+            return new Guard(startPosition, facing);
+        }
+
+        public static (Position startPosition, Direction facing) FindStartingPositionAndDirection(string[] inputData)
+        {
             var yIndex = inputData.ToList().FindIndex(s => s.Contains('^'));
             var xIndex = inputData[yIndex].IndexOf('^');
 
-            return new Guard(new(xIndex, inputData.Length - yIndex - 1), Direction.Up);
+            return (new(xIndex, inputData.Length - yIndex - 1), Direction.Up);
         }
 
         public static List<Position> GetObstaclesFromInput(string[] inputData)

@@ -18,6 +18,32 @@
             return obstacles.Contains(target);
         }
 
+        public int PossibleLoopsWithAdditionalObstacle(Position from, Direction facing)
+        {
+            int patrolIsALoopCount = 0;
+            for (int x = 0; x < oppositeCorner.X + 1; x++)
+            {
+                for (int y = 0; y < oppositeCorner.Y + 1; y++)
+                {
+                    var temporaryObstaclePosition = new Position(x, y);
+                    if (!obstacles.Contains(temporaryObstaclePosition))
+                    {
+                        obstacles.Add(temporaryObstaclePosition);
+
+                        var guard = new Guard(from, facing);
+                        _ = guard.GetPatrolRoute(this);
+                        if (guard.HasBeenHereBefore())
+                        {
+                            patrolIsALoopCount++;
+                        }
+                        obstacles.Remove(temporaryObstaclePosition);
+                    }
+                }
+            }
+
+            return patrolIsALoopCount;
+        }
+
         private bool IsInBounds(Position target)
         {
             var isInXBounds = target.X > -1 && target.X <= oppositeCorner.X;

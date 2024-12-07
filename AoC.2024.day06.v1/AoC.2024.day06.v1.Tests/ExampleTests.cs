@@ -16,5 +16,18 @@ namespace AoC._2024.day06.v1.Tests
 
             visitedPositions.Distinct().Should().HaveCount(41);
         }
+
+        [Fact]
+        public void ExampleDataReturnsXLoopsForPartOne()
+        {
+            var exampleData = File.ReadAllLines("example.txt");
+
+            var lab = Lab.InitialiseFrom(exampleData);
+            var guardData = InputParser.FindStartingPositionAndDirection(exampleData);
+
+            var possibleLoops = lab.PossibleLoopsWithAdditionalObstacle(guardData.startPosition, guardData.facing);
+
+            possibleLoops.Should().Be(6);
+        }
     }
 }

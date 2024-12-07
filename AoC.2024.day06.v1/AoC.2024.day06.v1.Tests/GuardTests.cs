@@ -78,5 +78,17 @@ public class GuardTests
 
             route.Should().HaveCount(12);
         }
+
+        [Fact]
+        public void ReturnsStartAndFinishVisitedPositionsWhenGuardIsInALoop()
+        {
+            var startingPosition = new Position(4, 3);
+            var loopLab = LabTests.MakeTestLoopLab();
+            var guard = new Guard(startingPosition, Direction.Up);
+
+            var route = guard.GetPatrolRoute(loopLab);
+
+            guard.HasBeenHereBefore().Should().Be(true);
+        }
     }
 }

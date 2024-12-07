@@ -4,7 +4,8 @@
     {
         private Position _currentPosition;
         private Direction _directionFacing;
-        private readonly List<Position> _visitedPositions = [];
+        private readonly Dictionary<Position, List<Direction>> _visitedDirectionalPositions = [];
+
         private static readonly Dictionary<Direction, Direction> _nextDirection = new() { 
             { Direction.Up, Direction.Right }, 
             { Direction.Right, Direction.Down }, 
@@ -15,15 +16,26 @@
         public Guard(Position position, Direction directionFacing)
         {
             _currentPosition = position;
-            _visitedPositions.Add(position);
             _directionFacing = directionFacing;
+            AddDirectionalPosition();
         }
 
         public List<Position> GetPatrolRoute(Lab lab)
         {
             Move(lab);
 
-            return _visitedPositions;
+            return [.. _visitedDirectionalPositions.Keys];
+        }
+
+        public bool HasBeenHereBefore()
+        {
+            return _visitedDirectionalPositions[_currentPosition].GroupBy(x => x).Any(p => p.Count() > 1);
+        }
+
+        private void AddDirectionalPosition()
+        {
+            _visitedDirectionalPositions.TryAdd(_currentPosition, []);
+            _visitedDirectionalPositions[_currentPosition].Add(_directionFacing);
         }
 
         private bool Move(Lab lab)
@@ -38,8 +50,12 @@
             if (lab.CanMoveTo(nextPosition))
             {
                 _currentPosition = nextPosition;
-                _visitedPositions.Add(nextPosition);
-                return Move(lab);
+                AddDirectionalPosition();
+
+                if (!HasBeenHereBefore())
+                {
+                    return Move(lab);
+                }
             }
 
             return false;
