@@ -45,7 +45,7 @@ namespace AoC._2024.day08.v1.Tests
 
                 map.AddAntenna(new Antenna('A', new Point(1, 3)));
 
-                map.NumberOfDistinctLoggedPoints().Should().Be(1);
+                map.NumberOfDistinctLoggedPoints().Should().Be(0);
             }
 
             [Fact]
@@ -56,7 +56,7 @@ namespace AoC._2024.day08.v1.Tests
                 map.AddAntenna(new Antenna('A', new Point(1, 3)));
                 map.AddAntenna(new Antenna('A', new Point(2, 3)));
 
-                map.NumberOfDistinctLoggedPoints().Should().Be(4);
+                map.NumberOfDistinctLoggedPoints().Should().Be(2);
             }
 
             [Fact]
@@ -67,7 +67,7 @@ namespace AoC._2024.day08.v1.Tests
                 map.AddAntenna(new Antenna('A', new Point(1, 3)));
                 map.AddAntenna(new Antenna('A', new Point(3, 3)));
 
-                map.NumberOfDistinctLoggedPoints().Should().Be(3);
+                map.NumberOfDistinctLoggedPoints().Should().Be(1);
             }
 
             [Fact]
@@ -79,7 +79,7 @@ namespace AoC._2024.day08.v1.Tests
                 map.AddAntenna(new Antenna('A', new Point(2, 2)));
                 map.AddAntenna(new Antenna('B', new Point(3, 3)));
 
-                map.NumberOfDistinctLoggedPoints().Should().Be(4);
+                map.NumberOfDistinctLoggedPoints().Should().Be(2);
             }
         }
     }

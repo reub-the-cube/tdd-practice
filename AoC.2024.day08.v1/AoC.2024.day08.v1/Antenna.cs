@@ -5,7 +5,7 @@ namespace AoC._2024.day08.v1
     public class Antenna(char frequency, Point point)
     {
         private char Frequency { get; init; } = frequency;
-        internal Point Point { get; init; } = point;
+        private Point Point { get; init; } = point;
 
         public List<Antinode> CreateAntinodes(IEnumerable<Antenna> antennas)
         {

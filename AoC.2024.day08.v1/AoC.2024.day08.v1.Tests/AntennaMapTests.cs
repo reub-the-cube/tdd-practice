@@ -44,7 +44,7 @@ namespace AoC._2024.day08.v1.Tests
 
                 var antinodeMap = map.GenerateAntinodeMap();
 
-                antinodeMap.NumberOfDistinctLoggedPoints().Should().Be(9);
+                antinodeMap.NumberOfDistinctLoggedPoints().Should().Be(6);
             }
         }
 

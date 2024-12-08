@@ -5,11 +5,11 @@ namespace AoC._2024.day08.v1
     public class AntinodeMap(Point oppositeCorner)
     {
         private readonly List<Antenna> _antennas = [];
-        private readonly List<Antinode> _antinodes = [];
+        private readonly HashSet<Point> _antinodePoints = [];
 
         public void AddAntenna(Antenna antenna)
         {
-            _antinodes.AddRange(GetValidAntinodesForAntenna(antenna));
+            AddAnyValidAntinodesForAntenna(antenna);
             _antennas.Add(antenna);
         }
 
@@ -25,16 +25,18 @@ namespace AoC._2024.day08.v1
 
         public int NumberOfDistinctLoggedPoints()
         {
-            var distinctPoints = _antinodes.Select(a => a.Point).Union(_antennas.Select(a => a.Point)).Distinct();
-            return distinctPoints.Count();
+            return _antinodePoints.Count;
         }
 
-        private IEnumerable<Antinode> GetValidAntinodesForAntenna(Antenna antenna)
+        private void AddAnyValidAntinodesForAntenna(Antenna antenna)
         {
             var possibleAntinodes = antenna.CreateAntinodes(_antennas);
             var validAntinodes = possibleAntinodes.Where(a => IsInBounds(a.Point));
 
-            return validAntinodes;
+            foreach (var antinode in validAntinodes)
+            {
+                _antinodePoints.Add(antinode.Point);
+            }
         }
     }
 }

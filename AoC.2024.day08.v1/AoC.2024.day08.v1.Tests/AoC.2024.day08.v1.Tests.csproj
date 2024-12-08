@@ -24,4 +24,13 @@
     <ProjectReference Include="..\AoC.2024.day08.v1\AoC.2024.day08.v1.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="example.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

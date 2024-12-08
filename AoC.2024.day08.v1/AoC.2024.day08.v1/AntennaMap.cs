@@ -36,15 +36,20 @@ namespace AoC._2024.day08.v1
 
         public static AntennaMap GenerateFromStringInput(string[] input)
         {
-            var antennaMap = new AntennaMap(new Point(5, 3));
-
+            var antennaMap = new AntennaMap(new Point(0, 0));
             if (input.Length == 0 || input[0].Length == 0) return antennaMap;
 
+            antennaMap = new AntennaMap(new Point(input[0].Length - 1, input.Length - 1));
             var xIndexes = Enumerable.Range(0, input[0].Length).ToList();
             var yIndexes = Enumerable.Range(0, input.Length).ToList();
 
             xIndexes.ForEach(x => yIndexes.ForEach(y => antennaMap.AddAntenna(input[y][x], new Point(x, y))));
             return antennaMap;
+        }
+
+        public static AntinodeMap GenerateAntinodeMapFromStringInput(string[] input)
+        {
+            return GenerateFromStringInput(input).GenerateAntinodeMap();
         }
     }
 }
