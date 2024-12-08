@@ -5,22 +5,16 @@
         private readonly RoutePosition _startingPosition = new(position, directionFacing);
         private RoutePosition _currentPosition = new(position, directionFacing);
         private Route _route = new();
-        private List<Route> _escapeRoutes = [];
 
-        public List<Position> GetPatrolRoute(Lab lab)
+        public Route GetPatrolRoute(Lab lab, Route? escapeRoute = null)
         {
             _route = new();
-            _route.TryAdd(_startingPosition.Position, _startingPosition.Direction);
             _currentPosition = _startingPosition;
+            AddCurrentPositionToRoute();
 
-            Move(lab);
+            Move(lab, escapeRoute);
 
-            if (!_route.Repeats())
-            {
-                _escapeRoutes.Add(_route);
-            }
-
-            return _route.PositionsVisited();
+            return _route;
         }
 
         public bool HasBeenHereBefore()
@@ -33,15 +27,34 @@
             return _route.GoesThrough(position);
         }
 
-        private bool Move(Lab lab)
+        private bool Move(Lab lab, Route? escapeRoute)
         {
+            if (CanEscape(lab, escapeRoute))
+            {
+                return false;
+            }
+
             Turn(lab);
             if (StepForward(lab))
             {
-                return Move(lab);
+                return Move(lab, escapeRoute);
             }
 
             return false;
+        }
+
+        private bool CanEscape(Lab lab, Route? escapeRoute)
+        {
+            if (escapeRoute == null)
+                return false;
+
+            var escapeRouteFromThisPosition = escapeRoute.GetRouteFrom(_currentPosition);
+
+            if (!escapeRouteFromThisPosition.PositionsVisited().Any())
+                return false;
+
+            var isNotBlocked = lab.RouteIsNotBlocked(escapeRouteFromThisPosition);
+            return isNotBlocked;
         }
 
         private void Turn(Lab lab)
@@ -49,7 +62,7 @@
             if (lab.IsBlocked(_currentPosition.Next().Position))
             {
                 _currentPosition = _currentPosition.Turn();
-                _route.TryAdd(_currentPosition.Position, _currentPosition.Direction);
+                AddCurrentPositionToRoute();
                 Turn(lab);
             }
         }
@@ -61,11 +74,18 @@
             if (lab.CanMoveTo(nextPosition.Position))
             {
                 _currentPosition = nextPosition;
-                bool newPosition = _route.TryAdd(_currentPosition.Position, _currentPosition.Direction);
+                bool newPosition = AddCurrentPositionToRoute();
                 return newPosition;
             }
 
             return false;
+        }
+
+        private bool AddCurrentPositionToRoute()
+        {
+            bool addedToRoute = _route.TryAdd(_currentPosition.Position, _currentPosition.Direction);
+
+            return addedToRoute;
         }
     }
 

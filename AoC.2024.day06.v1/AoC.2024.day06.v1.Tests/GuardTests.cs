@@ -21,7 +21,7 @@ public class GuardTests
 
             var route = guard.GetPatrolRoute(Lab);
 
-            route.Distinct().Should().HaveCount(1);
+            route.PositionsVisited().Distinct().Should().HaveCount(1);
         }
 
         [Fact]
@@ -32,7 +32,7 @@ public class GuardTests
 
             var route = guard.GetPatrolRoute(Lab);
 
-            route.Distinct().Should().HaveCount(2);
+            route.PositionsVisited().Distinct().Should().HaveCount(2);
         }
 
         [Fact]
@@ -43,7 +43,7 @@ public class GuardTests
 
             var route = guard.GetPatrolRoute(Lab);
 
-            route.Distinct().Should().HaveCount(3);
+            route.PositionsVisited().Distinct().Should().HaveCount(3);
         }
 
         [Fact]
@@ -54,7 +54,7 @@ public class GuardTests
 
             var route = guard.GetPatrolRoute(Lab);
 
-            route.Distinct().Should().HaveCount(1);
+            route.PositionsVisited().Distinct().Should().HaveCount(1);
         }
 
         [Fact]
@@ -65,7 +65,7 @@ public class GuardTests
 
             var route = guard.GetPatrolRoute(Lab);
 
-            route.Distinct().Should().HaveCount(4);
+            route.PositionsVisited().Distinct().Should().HaveCount(4);
         }
 
         [Fact]
@@ -76,7 +76,7 @@ public class GuardTests
 
             var route = guard.GetPatrolRoute(Lab);
 
-            route.Distinct().Should().HaveCount(12);
+            route.PositionsVisited().Distinct().Should().HaveCount(12);
         }
 
         [Fact]

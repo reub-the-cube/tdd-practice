@@ -12,15 +12,15 @@ namespace AoC._2024.day06.v1.Tests
             var lab = Lab.InitialiseFrom(inputData);
             var guard = InputParser.FindGuard(inputData);
 
-            var visitedPositions = guard.GetPatrolRoute(lab);
+            var route = guard.GetPatrolRoute(lab);
 
-            visitedPositions.Distinct().Should().HaveCount(4883);
+            route.PositionsVisited().Distinct().Should().HaveCount(4883);
 
             // 74 too low
             // 4884 too high
         }
 
-        [Fact (Skip = "It takes too long :(")]
+        [Fact]
         public void InputDataReturnsXLoopsForPartTwo()
         {
             var inputData = File.ReadAllLines("input.txt");

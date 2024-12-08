@@ -21,14 +21,19 @@
         public int PossibleLoopsWithAdditionalObstacle(Position from, Direction facing)
         {
             var guard = new Guard(from, facing);
-            _ = guard.GetPatrolRoute(this);
+            var knownExitRoute = guard.GetPatrolRoute(this);
 
             var possibleObstacleLocationsForCausingALoop = GetPossibleObstacleLocationsForCausingALoop(guard);
             possibleObstacleLocationsForCausingALoop.Remove(from);
 
-            int numberOfLoopsPossible = possibleObstacleLocationsForCausingALoop.Count(o => IsALoopWithATempObstacle(o, guard));
+            int numberOfLoopsPossible = possibleObstacleLocationsForCausingALoop.Count(o => IsALoopWithATempObstacle(o, guard, knownExitRoute));
 
             return numberOfLoopsPossible;
+        }
+
+        public bool RouteIsNotBlocked(Route route)
+        {
+            return !obstacles.Any(route.GoesThrough);
         }
 
         private List<Position> GetPossibleObstacleLocationsForCausingALoop(Guard guard)
@@ -47,10 +52,10 @@
             return locationsNotOnGuardsRoute.ToList();
         }
 
-        private bool IsALoopWithATempObstacle(Position obstacleToPlace, Guard originalGuard)
+        private bool IsALoopWithATempObstacle(Position obstacleToPlace, Guard originalGuard, Route knownExitRoute)
         {
             obstacles.Add(obstacleToPlace);
-            _ = originalGuard.GetPatrolRoute(this);
+            _ = originalGuard.GetPatrolRoute(this, knownExitRoute);
             obstacles.Remove(obstacleToPlace);
 
             if (obstacleToPlace.Y % 45 == 0)
