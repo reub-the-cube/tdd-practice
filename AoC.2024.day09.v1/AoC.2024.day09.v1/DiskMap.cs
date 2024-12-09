@@ -16,9 +16,9 @@ public class DiskMap
         return string.Concat(_indvidialBlocks.Select(b => b.ToString()));
     }
 
-    public int Checksum()
+    public long Checksum()
     {
-        int checksum = 0;
+        long checksum = 0;
         for (int i = 0; i < _indvidialBlocks.Count; i++)
         {
             checksum += _indvidialBlocks[i].Checksum(i);
