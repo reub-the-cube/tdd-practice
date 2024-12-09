@@ -55,6 +55,26 @@ public class DiskMapTests
 
             blocks.Should().Be("00...111");
         }
+
+        [Fact]
+        public void LeadsToCorrectRepresentationOfBlocksForFirstExampleProvided()
+        {
+            var diskMap = new DiskMap("12345");
+
+            string blocks = diskMap.AsBlocks();
+
+            blocks.Should().Be("0..111....22222");
+        }
+
+                [Fact]
+        public void LeadsToCorrectRepresentationOfBlocksForSecondExampleProvided()
+        {
+            var diskMap = new DiskMap("2333133121414131402");
+
+            string blocks = diskMap.AsBlocks();
+
+            blocks.Should().Be("00...111...2...333.44.5555.6666.777.888899");
+        }
     }
 }
 

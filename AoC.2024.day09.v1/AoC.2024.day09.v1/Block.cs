@@ -17,4 +17,9 @@ public class Block(char blockRepresentation, int index)
 
         return ".";
     }
+
+    public override string ToString()
+    {
+        return _blockValue;
+    }
 }

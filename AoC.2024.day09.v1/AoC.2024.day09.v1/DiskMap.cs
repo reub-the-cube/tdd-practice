@@ -16,29 +16,18 @@ public class DiskMap
     {
         if (_input == string.Empty) return string.Empty;
 
-        var individualBlocks = new StringBuilder();
+        var blocks = new List<Block>();
 
-        if (_input.Length > 0)
-        {
-            individualBlocks.Append(GetIndividualBlocksFor(_input[0], 0));
-        }
+        var indexesRepresentingBlocks = Enumerable.Range(0, _input.Length).ToList();
+        indexesRepresentingBlocks.ForEach(i => blocks.AddRange(GetBlocksForRepresentation(_input[i], i)));
 
-        if (_input.Length > 1)
-        {
-            individualBlocks.Append(GetIndividualBlocksFor(_input[1], 1));
-        }
-
-        if (_input.Length > 2)
-        {
-            individualBlocks.Append(GetIndividualBlocksFor(_input[2], 2));
-        }
-
-        return individualBlocks.ToString();
+        return string.Concat(blocks.Select(b => b.ToString()));
     }
 
-    private static string GetIndividualBlocksFor(char blockRepresentation, int representationIndex) {
+    private static IEnumerable<Block> GetBlocksForRepresentation(char blockRepresentation, int representationIndex)
+    {
         var block = new Block(blockRepresentation, representationIndex);
         var blockCount = int.Parse(blockRepresentation.ToString());
-        return block.Repeat(blockCount);
+        return Enumerable.Repeat(block, blockCount);
     }
 }
