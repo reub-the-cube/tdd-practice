@@ -20,7 +20,7 @@ public class AntennaTests
         }
     }
 
-    public class GetAntinodes
+    public class CreateAntinodes
     {
         [Fact]
         public void ReturnsEmptyListOfAntinodesWhenNoOtherAntennasAreProvided()
@@ -69,6 +69,24 @@ public class AntennaTests
 
             antinodes.Should().HaveCount(4);
         }
+
+        [Fact]
+        public void ReturnsXAntinodesWhenTwoAntennasOfTheSameFrequencyExist()
+        {
+            // ...........              #..........
+            // .a..a......              .x..#..#..#
+            // ..a........      ==\     ..#........
+            // ...........      ==/     ...#.......
+            // ...........              ....#......
+
+            var frequency = 'a';
+            var point = new Point(1, 3);
+            var antenna = new Antenna(frequency, point);
+
+            var antinodes = antenna.CreateAntinodes([new Antenna('a', new Point(2, 2)), new Antenna('a', new Point(4, 3))], new Point(10, 4));
+
+            antinodes.Should().HaveCount(9);
+        }
     }
 
     public class CreateAntinodePair : AntennaTests
@@ -114,6 +132,19 @@ public class AntennaTests
 
             antinodes.Should().Contain(new Antinode(new Point(-2, -2)));
             antinodes.Should().Contain(new Antinode(new Point(7, 13)));
+        }
+    }
+
+    public class CreateAntinodeLine : AntennaTests
+    {
+        [Fact]
+        public void ReturnsFullHorizontalLineOfAntinodesForHorizontallyAdjacentAntennas()
+        {
+            var secondAntenna = new Antenna(KnownFrequency, new Point(2, 3));
+
+            var antinodes = AntennaUnderTest.CreateAntinodeLine(secondAntenna, new Point(5, 3));
+
+            antinodes.Should().HaveCount(6);
         }
     }
 }

@@ -9,9 +9,19 @@ namespace AoC._2024.day08.v1.Tests
         [Fact]
         public void DistincePointsLoggedReturnsXForPartOne()
         {
-            var map = AntennaMap.GenerateAntinodeMapFromStringInput(_input);
+            var addResonantHarmonics = false;
+            var map = AntennaMap.GenerateAntinodeMapFromStringInput(_input, addResonantHarmonics);
 
             map.NumberOfDistinctLoggedPoints().Should().Be(14);
+        }
+
+        [Fact]
+        public void DistincePointsLoggedReturnsYForPartTwo()
+        {
+            var addResonantHarmonics = true;
+            var map = AntennaMap.GenerateAntinodeMapFromStringInput(_input, addResonantHarmonics);
+
+            map.NumberOfDistinctLoggedPoints().Should().Be(34);
         }
     }
 }

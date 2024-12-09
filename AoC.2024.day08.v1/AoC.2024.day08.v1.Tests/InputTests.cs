@@ -9,11 +9,21 @@ namespace AoC._2024.day08.v1.Tests
         [Fact]
         public void DistinctPointsLoggedReturnsXForPartOne()
         {
-            var map = AntennaMap.GenerateAntinodeMapFromStringInput(_input);
+            var addResonantHarmonics = false;
+            var map = AntennaMap.GenerateAntinodeMapFromStringInput(_input, addResonantHarmonics);
 
             map.NumberOfDistinctLoggedPoints().Should().Be(396);
 
             // 406 too high
+        }
+
+        [Fact]
+        public void DistincePointsLoggedReturnsYForPartTwo()
+        {
+            var addResonantHarmonics = true;
+            var map = AntennaMap.GenerateAntinodeMapFromStringInput(_input, addResonantHarmonics);
+
+            map.NumberOfDistinctLoggedPoints().Should().Be(1200);
         }
     }
 }

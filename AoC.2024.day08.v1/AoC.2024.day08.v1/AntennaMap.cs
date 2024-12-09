@@ -29,7 +29,12 @@ namespace AoC._2024.day08.v1
 
         public AntinodeMap GenerateAntinodeMap()
         {
-            var antinodeMap = new AntinodeMap(oppositeCorner);
+            return GenerateAntinodeMap(false);
+        }
+
+        public AntinodeMap GenerateAntinodeMap(bool addResonantHarmonics)
+        {
+            var antinodeMap = new AntinodeMap(oppositeCorner, addResonantHarmonics);
             antennas.ForEach(antinodeMap.AddAntenna);
             return antinodeMap;
         }
@@ -47,9 +52,9 @@ namespace AoC._2024.day08.v1
             return antennaMap;
         }
 
-        public static AntinodeMap GenerateAntinodeMapFromStringInput(string[] input)
+        public static AntinodeMap GenerateAntinodeMapFromStringInput(string[] input, bool addResonantHarmonics)
         {
-            return GenerateFromStringInput(input).GenerateAntinodeMap();
+            return GenerateFromStringInput(input).GenerateAntinodeMap(addResonantHarmonics);
         }
     }
 }
