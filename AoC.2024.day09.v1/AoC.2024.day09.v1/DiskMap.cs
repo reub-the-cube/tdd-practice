@@ -16,6 +16,17 @@ public class DiskMap
         return string.Concat(_indvidialBlocks.Select(b => b.ToString()));
     }
 
+    public int Checksum()
+    {
+        int checksum = 0;
+        for (int i = 0; i < _indvidialBlocks.Count; i++)
+        {
+            checksum += _indvidialBlocks[i].Checksum(i);
+        }
+        
+        return checksum;
+    }
+
     public string ShiftFilesLeftFromFarRight()
     {
         Block.ShiftFilesLeftFromFarRight(_indvidialBlocks);

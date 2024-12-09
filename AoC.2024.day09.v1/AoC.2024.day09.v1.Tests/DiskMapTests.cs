@@ -1,3 +1,4 @@
+using System.Configuration.Assemblies;
 using FluentAssertions;
 using Microsoft.VisualBasic;
 
@@ -128,6 +129,19 @@ public class DiskMapTests
             string blocks = diskMap.ShiftFilesLeftFromFarRight();
 
             blocks.Should().Be("0099811188827773336446555566..............");
+        }
+    }
+
+    public class Checksum
+    {
+        [Fact]
+        public void ReturnsPositionAndIdNumberCombinedAndSummedForFirstExampleProvided()
+        {
+            var diskMap = new DiskMap("2333133121414131402");
+
+            _ = diskMap.ShiftFilesLeftFromFarRight();
+
+            diskMap.Checksum().Should().Be(1928);
         }
     }
 }

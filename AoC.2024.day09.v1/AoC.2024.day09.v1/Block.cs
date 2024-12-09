@@ -5,6 +5,12 @@ public class Block(int index)
     private readonly string _blockValue = GetBlockValue(index);
     private readonly bool _isEmpty = GetBlockValue(index) == ".";
 
+    internal int Checksum(int multiplier) {
+        if (_isEmpty) return 0;
+
+        return int.Parse(_blockValue) * multiplier;
+    }
+
     internal string Repeat(int times)
     {
         return new string(_blockValue[0], times);
