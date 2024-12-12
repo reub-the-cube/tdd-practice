@@ -23,7 +23,7 @@ public class DiskMap
         {
             checksum += _indvidialBlocks[i].Checksum(i);
         }
-        
+
         return checksum;
     }
 
@@ -31,6 +31,14 @@ public class DiskMap
     {
         Block.ShiftFilesLeftFromFarRight(_indvidialBlocks);
         return string.Concat(_indvidialBlocks.Select(b => b.ToString()));
+    }
+
+    public string ShiftFullFilesLeftInDecreasingOrder()
+    {
+        Block.GetFullFileBlocksAsStringInDecreasingFileIdOrder(_indvidialBlocks);
+        var allBlocksAsString = string.Concat(_indvidialBlocks.Select(b => b.ToString()));
+
+        return allBlocksAsString;
     }
 
     private void ExpandBlockRepresentation()
