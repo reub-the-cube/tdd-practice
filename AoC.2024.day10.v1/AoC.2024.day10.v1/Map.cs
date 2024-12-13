@@ -1,4 +1,5 @@
 using System.IO.IsolatedStorage;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 
 namespace AoC._2024.day10.v1;
@@ -6,21 +7,39 @@ namespace AoC._2024.day10.v1;
 public class Map
 {
     private readonly Position[,] _map;
+    private readonly List<Position> _trailheads = [];
+    private readonly HashSet<Position> _finishingPositions = [];
 
     public int Height { get; init; }
     public int Width { get; init; }
 
+    private const int MaximumTopographicHeight = 9;
+
     public Map(string[] input)
-    { 
+    {
         input = input.Reverse().ToArray(); // Index 0 is actually row 0
         var rows = Enumerable.Range(0, input.Length).ToList();
         var columns = Enumerable.Range(0, input[0].Length).ToList();
 
         Height = rows.Count;
         Width = columns.Count;
-        
+
         _map = new Position[Width, Height];
-        rows.ForEach(r => columns.ForEach(c => _map[c, r] = new Position(c, r, int.Parse(input[r][c].ToString()))));
+        rows.ForEach(r => columns.ForEach(c =>
+        {
+            var position = new Position(c, r, int.Parse(input[r][c].ToString()));
+            _map[c, r] = position;
+            if (_map[c, r].Height == 0)
+            {
+                _trailheads.Add(position);
+            }
+        }
+        ));
+    }
+
+    public List<Position> FindTrailheads()
+    {
+        return _trailheads;
     }
 
     public Position PositionAt(int x, int y)
@@ -30,11 +49,40 @@ public class Map
 
     public int ScoreFrom(Position position)
     {
-        if (position.Height == 9)
+        _finishingPositions.Clear();
+
+        IEnumerable<Position> positions = [position];
+        while (positions.Any())
         {
-            return 1;
+            positions = positions.SelectMany(GetNextPositions);
         }
 
-        return 0;
+        return _finishingPositions.Count;
+    }
+
+    public int ScoreFromTrailheads()
+    {
+        return _trailheads.Sum(ScoreFrom);
+    }
+
+    private IEnumerable<Position> GetNextPositions(Position position)
+    {
+        if (AddFinishingPosition(position))
+        {
+            return [];
+        }
+
+        return position.Next(this);
+    }
+
+    private bool AddFinishingPosition(Position position)
+    {
+        var atTopHeight = position.Height == MaximumTopographicHeight;
+        if (atTopHeight)
+        {
+            _finishingPositions.Add(position);
+        }
+
+        return atTopHeight;
     }
 }

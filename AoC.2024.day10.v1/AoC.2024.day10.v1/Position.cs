@@ -23,6 +23,12 @@ public class Position(int X, int Y, int Height)
         {
             yield return map.PositionAt(X, Y + 1);
         }
+
+        // down / south
+        if (Y - 1 > -1 && map.PositionAt(X, Y - 1).Height == Height + 1)
+        {
+            yield return map.PositionAt(X, Y - 1);
+        }
     }
 
     public int Score(Map map)
