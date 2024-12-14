@@ -1,6 +1,6 @@
 ﻿namespace AoC._2024.day11.v1;
 
-public record Stone(int Value)
+public record Stone(long Value)
 {
     private IEnumerable<Stone> OnFirstBlinkStones => OnFirstBlink();
     private string ValueAsString => Value.ToString();
@@ -20,7 +20,7 @@ public record Stone(int Value)
         if (ValueAsString.Length % 2 == 0)
         {
             var halfLength = ValueAsString.Length / 2;
-            return [new Stone(int.Parse(ValueAsString[..halfLength])), new Stone(int.Parse(ValueAsString[halfLength..]))];
+            return [new Stone(long.Parse(ValueAsString[..halfLength])), new Stone(long.Parse(ValueAsString[halfLength..]))];
         }
 
         return [new Stone(Value * 2024)];

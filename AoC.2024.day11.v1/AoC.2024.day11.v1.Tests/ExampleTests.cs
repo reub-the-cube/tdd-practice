@@ -19,5 +19,17 @@ namespace AoC._2024.day11.v1.Tests
 
             stonesAfterBlink.Should().Contain(stoneAfterBlink);
         }
+
+        [Theory]
+        [InlineData(6, 22)]
+        [InlineData(25, 55312)]
+        public void InitialArrangementOfTwoStonesReturnsTotalNewStonesAfterBlinks(int numberOfBlinks, int expectedNumberOfStones)
+        {
+            var pebbles = new PlutonianPebbles("125 17");
+
+            pebbles.Observe(numberOfBlinks);
+
+            pebbles.NumberOfStones.Should().Be(expectedNumberOfStones);
+        }
     }
 }
