@@ -37,4 +37,33 @@ public static class Doubles
         "01329801",
         "10456732"
     ];
+
+    internal static string[] ExampleFourInput = [
+        "9999909",
+        "9943219",
+        "9959929",
+        "9965439",
+        "9979949",
+        "1187651",
+        "1191111"
+    ];
+
+    internal static string[] ExampleFiveInput = [
+        "7790779",
+        "7771798",
+        "7772117",
+        "6543456",
+        "7651987",
+        "8761111",
+        "9871111"
+    ];
+
+    internal static string[] ExampleSixInput = [
+        "012345",
+        "123456",
+        "234567",
+        "345678",
+        "416789",
+        "567891"
+    ];
 }

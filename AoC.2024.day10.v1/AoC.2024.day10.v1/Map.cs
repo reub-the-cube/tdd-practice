@@ -1,14 +1,12 @@
-using System.IO.IsolatedStorage;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-
 namespace AoC._2024.day10.v1;
 
 public class Map
 {
     private readonly Position[,] _map;
     private readonly List<Position> _trailheads = [];
-    private readonly HashSet<Position> _finishingPositions = [];
+    private readonly Dictionary<Position, int> _finishingPositions = [];
+    private Position _currentStartingPosition;
+    private readonly Dictionary<Position, Dictionary<Position, int>> _finishingPositionsByStartingPosition = [];
 
     public int Height { get; init; }
     public int Width { get; init; }
@@ -47,9 +45,21 @@ public class Map
         return _map[x, y];
     }
 
+    public int RatingFromTrailheads()
+    {
+        return _trailheads.Sum(RatingFrom);
+    }
+
+    public int RatingFrom(Position position)
+    {
+        _ = ScoreFrom(position);
+        return _finishingPositionsByStartingPosition[position].Sum(p => p.Value);
+    }
+
     public int ScoreFrom(Position position)
     {
         _finishingPositions.Clear();
+        _currentStartingPosition = position;
 
         IEnumerable<Position> positions = [position];
         while (positions.Any())
@@ -57,7 +67,9 @@ public class Map
             positions = positions.SelectMany(GetNextPositions);
         }
 
-        return _finishingPositions.Count;
+        _finishingPositionsByStartingPosition[_currentStartingPosition] = _finishingPositions;
+
+        return _finishingPositions.Count();
     }
 
     public int ScoreFromTrailheads()
@@ -80,7 +92,12 @@ public class Map
         var atTopHeight = position.Height == MaximumTopographicHeight;
         if (atTopHeight)
         {
-            _finishingPositions.Add(position);
+            if (!_finishingPositions.TryGetValue(position, out int value))
+            {
+                value = 0;
+                _finishingPositions.Add(position, value);
+            }
+            _finishingPositions[position] = ++value;
         }
 
         return atTopHeight;

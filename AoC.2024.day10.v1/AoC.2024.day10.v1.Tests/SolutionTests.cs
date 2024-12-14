@@ -15,5 +15,15 @@ namespace AoC._2024.day10.v1.Tests
 
             score.Should().Be(737);
         }
+
+        [Fact]
+        public void ProvidedInputReturnsCorrectAnswerForPartTwo()
+        {
+            var map = new Map(_inputData);
+
+            var rating = map.RatingFromTrailheads();
+
+            rating.Should().Be(1619);
+        }
     }
 }
