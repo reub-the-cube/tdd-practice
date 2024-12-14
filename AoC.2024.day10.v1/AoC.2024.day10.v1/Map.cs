@@ -5,7 +5,6 @@ public class Map
     private readonly Position[,] _map;
     private readonly List<Position> _trailheads = [];
     private readonly Dictionary<Position, int> _finishingPositions = [];
-    private Position _currentStartingPosition;
     private readonly Dictionary<Position, Dictionary<Position, int>> _finishingPositionsByStartingPosition = [];
 
     public int Height { get; init; }
@@ -59,7 +58,6 @@ public class Map
     public int ScoreFrom(Position position)
     {
         _finishingPositions.Clear();
-        _currentStartingPosition = position;
 
         IEnumerable<Position> positions = [position];
         while (positions.Any())
@@ -67,7 +65,7 @@ public class Map
             positions = positions.SelectMany(GetNextPositions);
         }
 
-        _finishingPositionsByStartingPosition[_currentStartingPosition] = _finishingPositions;
+        _finishingPositionsByStartingPosition[position] = _finishingPositions;
 
         return _finishingPositions.Count();
     }

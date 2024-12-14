@@ -4,20 +4,6 @@ namespace AoC._2024.day10.v1.Tests;
 
 public class PositionTests
 {
-    public class RoutesFrom
-    {
-        [Fact]
-        public void ANinePositionHasAScoreOfOne()
-        {
-            var map = new Map(Doubles.TestMapInput);
-            var position = new Position(0, 0, 9);
-
-            var positionScore = position.Score(map);
-
-            positionScore.Should().Be(1);
-        }
-    }
-
     public class Next
     {
         [Fact]

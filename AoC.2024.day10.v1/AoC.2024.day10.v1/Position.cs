@@ -30,9 +30,4 @@ public class Position(int X, int Y, int Height)
             yield return map.PositionAt(X, Y - 1);
         }
     }
-
-    public int Score(Map map)
-    {
-        return map.ScoreFrom(this);
-    }
 }
