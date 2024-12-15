@@ -1,34 +1,29 @@
-﻿namespace AoC._2024.day11.v1
+﻿using System.Diagnostics;
+
+namespace AoC._2024.day11.v1
 {
-    public class PlutonianPebbles
+    public class PlutonianPebbles(string InitialArrangement)
     {
-        public PlutonianPebbles(string initialArrangement)
-        {
-            InitialArrangement = initialArrangement;
-            currentArrangement = GetInitialArrangement();
-        }
-
-        private List<long> currentArrangement = [];
-
-        public string InitialArrangement { get; }
-
         public long NumberOfStones { get; private set; }
 
-        public override string ToString()
-        {
-            return string.Join(" ", currentArrangement);
-        }
+        private readonly Dictionary<(long, int), long> _numberOfStonesAfterXBlinks = [];
 
         public void Observe(int numberOfBlinks)
         {
-            while (numberOfBlinks > 0)
+            NumberOfStones = GetInitialArrangement().Sum(s => Blink(numberOfBlinks, s));
+        }
+
+        private long Blink(int numberOfBlinks, long startingStoneValue)
+        {
+            if (numberOfBlinks == 0) return 1;
+
+            if (!_numberOfStonesAfterXBlinks.ContainsKey((startingStoneValue, numberOfBlinks)))
             {
-                var arrangement = currentArrangement.SelectMany(s => new Stone(s).OnBlink(1));
-                currentArrangement = arrangement.Select(a => a.Value).ToList();
-                numberOfBlinks--;
+                var newStones = new Stone(startingStoneValue).OnBlink(1).Select(s => s.Value);
+                _numberOfStonesAfterXBlinks.Add((startingStoneValue, numberOfBlinks), newStones.Sum(s => Blink(numberOfBlinks - 1, s)));
             }
 
-            NumberOfStones = currentArrangement.Count;
+            return _numberOfStonesAfterXBlinks[(startingStoneValue, numberOfBlinks)];
         }
 
         private List<long> GetInitialArrangement()

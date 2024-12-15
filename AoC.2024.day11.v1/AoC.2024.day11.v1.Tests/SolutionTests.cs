@@ -13,5 +13,15 @@ namespace AoC._2024.day11.v1.Tests
 
             pebbles.NumberOfStones.Should().Be(187738);
         }
+
+        [Fact]
+        public void InputDataReturnsXForPartTwo()
+        {
+            var pebbles = new PlutonianPebbles("77 515 6779622 6 91370 959685 0 9861");
+
+            pebbles.Observe(75);
+
+            pebbles.NumberOfStones.Should().Be(223767210249237);
+        }
     }
 }
