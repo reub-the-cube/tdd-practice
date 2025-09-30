@@ -1,17 +1,20 @@
 ﻿namespace AoC._2024.day07.v1;
 
-public class RootEquation(long testValue, List<int> numbers)
+public class RootEquation(long testValue, List<int> numbers, bool includeConcatenation = false)
 {
     private readonly long testValue = testValue;
-    private readonly List<int> numbers = numbers;
+    private readonly List<long> numbers = [.. numbers.Select(n => (long)n)];
+    private readonly bool includeConcatenation = includeConcatenation;
 
     public bool TrySolve(out long result)
     {
         var newEquations = new List<Equation>
         {
-            new AdditionEquation(testValue, numbers),
-            new MultiplicationEquation(testValue, numbers)
+            new AdditionEquation(testValue, numbers, includeConcatenation),
+            new MultiplicationEquation(testValue, numbers, includeConcatenation)
         };
+
+        if (includeConcatenation) newEquations.Add(new ConcatenationEquation(testValue, numbers));
 
         if (newEquations.Any(e => e.TrySolve()))
         {
@@ -23,19 +26,20 @@ public class RootEquation(long testValue, List<int> numbers)
         return false;
     }
 
-    public static RootEquation Create(string input)
+    public static RootEquation Create(string input, bool includeConcatenation = false)
     {
         var splitInput = input.Split(':');
         var simplifiedTestValue = long.Parse(splitInput[0]);
         var numbers = splitInput[1].Trim().Split(' ').Select(int.Parse).ToList();
-        return new RootEquation(simplifiedTestValue, numbers);
+        return new RootEquation(simplifiedTestValue, numbers, includeConcatenation);
     }
 }
 
-public abstract class Equation(long testValue, List<int> numbers)
+public abstract class Equation(long testValue, List<long> numbers, bool includeConcatenation = false)
 {
     protected readonly long testValue = testValue;
-    protected readonly List<int> numbers = numbers;
+    protected readonly List<long> numbers = numbers;
+    private readonly bool includeConcatenation = includeConcatenation;
 
     public bool TrySolve()
     {
@@ -60,45 +64,53 @@ public abstract class Equation(long testValue, List<int> numbers)
 
     private List<Equation> Simplify()
     {
-        long simplifiedTestValue = SimplifyTestValue();
+        List<long> simplifiedNumbers = SimplifyNumbers();
 
-        return [
-            new AdditionEquation(simplifiedTestValue, [.. numbers.Take(numbers.Count - 1)]),
-            new MultiplicationEquation(simplifiedTestValue, [.. numbers.Take(numbers.Count - 1)])
-        ];
+        var newEquations = new List<Equation>
+        {
+            new AdditionEquation(testValue, simplifiedNumbers, includeConcatenation),
+            new MultiplicationEquation(testValue, simplifiedNumbers, includeConcatenation)
+        };
+
+        if (includeConcatenation)
+        {
+            newEquations.Add(new ConcatenationEquation(testValue, simplifiedNumbers));
+        }
+
+        return newEquations;
+    }
+
+    private List<long> SimplifyNumbers()
+    {
+        List<long> simplifiedNumbers = [.. numbers.Skip(1)];
+        simplifiedNumbers[0] = CombineTwoNumbers();
+        return simplifiedNumbers;
     }
 
     protected abstract long CombineTwoNumbers();
-
-    protected abstract long SimplifyTestValue();
 }
 
-public class AdditionEquation(long testValue, List<int> numbers) : Equation(testValue, numbers)
+public class AdditionEquation(long testValue, List<long> numbers, bool includeConcatenation = false) : Equation(testValue, numbers, includeConcatenation)
 {
     protected override long CombineTwoNumbers()
     {
         return numbers[0] + numbers[1];
     }
-
-    protected override long SimplifyTestValue()
-    {
-        return testValue - numbers.Last();
-    }
 }
 
-public class MultiplicationEquation(long testValue, List<int> numbers) : Equation(testValue, numbers)
+public class MultiplicationEquation(long testValue, List<long> numbers, bool includeConcatenation = false) : Equation(testValue, numbers, includeConcatenation)
 {
     protected override long CombineTwoNumbers()
     {
         return numbers[0] * numbers[1];
     }
+}
 
-    protected override long SimplifyTestValue()
+public class ConcatenationEquation(long testValue, List<long> numbers) : Equation(testValue, numbers, true)
+{
+    protected override long CombineTwoNumbers()
     {
-        if (testValue % numbers.Last() == 0)
-        {
-            return testValue / numbers.Last();
-        }
-        return 0;
+        var concatenated = numbers[0].ToString() + numbers[1].ToString();
+        return long.Parse(concatenated);
     }
 }

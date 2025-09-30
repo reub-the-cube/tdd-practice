@@ -106,4 +106,39 @@ public class EquationTests
 
         solved.Should().Be(expectedToBeSolved);
     }
+
+    [Theory]
+    [InlineData("190: 10 19", true)]
+    [InlineData("3267: 81 40 27", true)]
+    [InlineData("83: 17 5", false)]
+    [InlineData("161011: 16 10 13", false)]
+    [InlineData("156: 15 6", true)]
+    [InlineData("192: 17 8 14", true)]
+    [InlineData("7290: 6 8 6 15", true)]
+    public void GivenAnInputLineARootEquationWithConcatenationCanBeSolved(string equationInput, bool expectedToBeSolved)
+    {
+        var solved = RootEquation.Create(equationInput, true).TrySolve(out _);
+
+        solved.Should().Be(expectedToBeSolved);
+    }
+
+    [Fact]
+    public void GivenAnEquationIsSolveableWithSingleConcatentationThenTheCalibrationResultIsReturned()
+    {
+        var equation = new ConcatenationEquation(156, [15, 6]);
+
+        var solved = equation.TrySolve();
+
+        solved.Should().BeTrue();
+    }
+
+    [Fact]
+    public void GivenAnEquationIsNotSolveableWithSingleConcatentationThenTheCalibrationResultIsNotReturned()
+    {
+        var equation = new ConcatenationEquation(157, [15, 6]);
+
+        var solved = equation.TrySolve();
+
+        solved.Should().BeFalse();
+    }
 }
