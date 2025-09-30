@@ -10,13 +10,13 @@ public class RootEquation(long testValue, List<int> numbers, bool includeConcate
     {
         var newEquations = new List<Equation>
         {
-            new AdditionEquation(testValue, numbers, includeConcatenation),
-            new MultiplicationEquation(testValue, numbers, includeConcatenation)
+            new AdditionEquation(numbers, includeConcatenation),
+            new MultiplicationEquation(numbers, includeConcatenation)
         };
 
-        if (includeConcatenation) newEquations.Add(new ConcatenationEquation(testValue, numbers));
+        if (includeConcatenation) newEquations.Add(new ConcatenationEquation(numbers));
 
-        if (newEquations.Any(e => e.TrySolve()))
+        if (newEquations.Any(e => e.CanSolveFor(testValue)))
         {
             result = testValue;
             return true;
@@ -35,28 +35,29 @@ public class RootEquation(long testValue, List<int> numbers, bool includeConcate
     }
 }
 
-public abstract class Equation(long testValue, List<long> numbers, bool includeConcatenation = false)
+public abstract class Equation(List<long> numbers, bool includeConcatenation = false)
 {
-    protected readonly long testValue = testValue;
+    protected abstract long CombineTwoNumbers();
+    protected readonly long testValue;
     protected readonly List<long> numbers = numbers;
     private readonly bool includeConcatenation = includeConcatenation;
 
-    public bool TrySolve()
+    public bool CanSolveFor(long targetValue)
     {
-        return TestValueCanBeMadeFromNumbers();
+        return TestValueCanBeMadeFromNumbers(targetValue);
     }
 
-    private bool TestValueCanBeMadeFromNumbers()
+    private bool TestValueCanBeMadeFromNumbers(long targetValue)
     {
         if (numbers.Count == 2)
         {
-            return testValue == CombineTwoNumbers();
+            return targetValue == CombineTwoNumbers();
         }
 
         if (numbers.Count > 2)
         {
             var newEquations = Simplify();
-            return newEquations.Any(e => e.TestValueCanBeMadeFromNumbers());
+            return newEquations.Any(e => e.TestValueCanBeMadeFromNumbers(targetValue));
         }
 
         return false;
@@ -68,13 +69,13 @@ public abstract class Equation(long testValue, List<long> numbers, bool includeC
 
         var newEquations = new List<Equation>
         {
-            new AdditionEquation(testValue, simplifiedNumbers, includeConcatenation),
-            new MultiplicationEquation(testValue, simplifiedNumbers, includeConcatenation)
+            new AdditionEquation(simplifiedNumbers, includeConcatenation),
+            new MultiplicationEquation(simplifiedNumbers, includeConcatenation)
         };
 
         if (includeConcatenation)
         {
-            newEquations.Add(new ConcatenationEquation(testValue, simplifiedNumbers));
+            newEquations.Add(new ConcatenationEquation(simplifiedNumbers));
         }
 
         return newEquations;
@@ -86,11 +87,9 @@ public abstract class Equation(long testValue, List<long> numbers, bool includeC
         simplifiedNumbers[0] = CombineTwoNumbers();
         return simplifiedNumbers;
     }
-
-    protected abstract long CombineTwoNumbers();
 }
 
-public class AdditionEquation(long testValue, List<long> numbers, bool includeConcatenation = false) : Equation(testValue, numbers, includeConcatenation)
+public class AdditionEquation(List<long> numbers, bool includeConcatenation = false) : Equation(numbers, includeConcatenation)
 {
     protected override long CombineTwoNumbers()
     {
@@ -98,7 +97,7 @@ public class AdditionEquation(long testValue, List<long> numbers, bool includeCo
     }
 }
 
-public class MultiplicationEquation(long testValue, List<long> numbers, bool includeConcatenation = false) : Equation(testValue, numbers, includeConcatenation)
+public class MultiplicationEquation(List<long> numbers, bool includeConcatenation = false) : Equation(numbers, includeConcatenation)
 {
     protected override long CombineTwoNumbers()
     {
@@ -106,7 +105,7 @@ public class MultiplicationEquation(long testValue, List<long> numbers, bool inc
     }
 }
 
-public class ConcatenationEquation(long testValue, List<long> numbers) : Equation(testValue, numbers, true)
+public class ConcatenationEquation(List<long> numbers) : Equation(numbers, true)
 {
     protected override long CombineTwoNumbers()
     {

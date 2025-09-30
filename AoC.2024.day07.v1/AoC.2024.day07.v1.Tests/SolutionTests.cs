@@ -52,7 +52,7 @@ public class SolutionTests
         calibrationTotal.Should().Be(303766880536L);
     }
     
-        [Fact]
+    [Fact]
     public void InputDataCalculatesTheResultForPartTwo()
     {
         var equations = inputData.Select(i => RootEquation.Create(i, true));

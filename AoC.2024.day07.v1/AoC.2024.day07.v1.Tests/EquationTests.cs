@@ -7,9 +7,9 @@ public class EquationTests
     [Fact]
     public void GivenAnEquationIsSolveableWithSingleAdditionThenTheCalibrationResultIsReturned()
     {
-        var equation = new AdditionEquation(29, [10, 19]);
+        var equation = new AdditionEquation([10, 19]);
 
-        var solved = equation.TrySolve();
+        var solved = equation.CanSolveFor(29);
 
         solved.Should().BeTrue();
     }
@@ -17,9 +17,9 @@ public class EquationTests
     [Fact]
     public void GivenAnEquationIsNotSolveableWithAdditionThenTheCalibrationResultIsNotReturned()
     {
-        var equation = new AdditionEquation(30, [10, 19]);
+        var equation = new AdditionEquation([10, 19]);
 
-        var solved = equation.TrySolve();
+        var solved = equation.CanSolveFor(30);
 
         solved.Should().BeFalse();
     }
@@ -27,9 +27,9 @@ public class EquationTests
     [Fact]
     public void GivenAnEquationIsSolveableWithManyAdditionsThenTheCalibrationResultIsReturned()
     {
-        var equation = new AdditionEquation(35, [10, 19, 1, 5]);
+        var equation = new AdditionEquation([10, 19, 1, 5]);
 
-        var solved = equation.TrySolve();
+        var solved = equation.CanSolveFor(35);
 
         solved.Should().BeTrue();
     }
@@ -37,9 +37,9 @@ public class EquationTests
     [Fact]
     public void GivenAnEquationIsNotSolveableWithManyAdditionsThenTheCalibrationResultIsNotReturned()
     {
-        var equation = new AdditionEquation(30, [10, 19, 1, 5]);
+        var equation = new AdditionEquation([10, 19, 1, 5]);
 
-        var solved = equation.TrySolve();
+        var solved = equation.CanSolveFor(30);
 
         solved.Should().BeFalse();
     }
@@ -47,9 +47,9 @@ public class EquationTests
     [Fact]
     public void GivenAnEquationIsSolveableWithSingleMultiplicationThenTheCalibrationResultIsReturned()
     {
-        var equation = new MultiplicationEquation(190, [10, 19]);
+        var equation = new MultiplicationEquation([10, 19]);
 
-        var solved = equation.TrySolve();
+        var solved = equation.CanSolveFor(190);
 
         solved.Should().BeTrue();
     }
@@ -57,9 +57,9 @@ public class EquationTests
     [Fact]
     public void GivenAnEquationIsNotSolveableWithSingleMultiplicationThenTheCalibrationResultIsNotReturned()
     {
-        var equation = new MultiplicationEquation(180, [10, 19]);
+        var equation = new MultiplicationEquation([10, 19]);
 
-        var solved = equation.TrySolve();
+        var solved = equation.CanSolveFor(180);
 
         solved.Should().BeFalse();
     }
@@ -67,9 +67,9 @@ public class EquationTests
     [Fact]
     public void GivenAnEquationIsSolveableWithManyMultiplicationThenTheCalibrationResultIsReturned()
     {
-        var equation = new MultiplicationEquation(5700, [10, 19, 5, 6]);
+        var equation = new MultiplicationEquation([10, 19, 5, 6]);
 
-        var solved = equation.TrySolve();
+        var solved = equation.CanSolveFor(5700);
 
         solved.Should().BeTrue();
     }
@@ -77,9 +77,9 @@ public class EquationTests
     [Fact]
     public void GivenAnEquationIsSolveableWithAdditionAndMultiplicationThenTheCalibrationResultIsReturned()
     {
-        var equation = new MultiplicationEquation(3267, [81, 40, 27]);
+        var equation = new MultiplicationEquation([81, 40, 27]);
 
-        var solved = equation.TrySolve();
+        var solved = equation.CanSolveFor(3267);
 
         solved.Should().BeTrue();
     }
@@ -107,6 +107,26 @@ public class EquationTests
         solved.Should().Be(expectedToBeSolved);
     }
 
+    [Fact]
+    public void GivenAnEquationIsSolveableWithSingleConcatentationThenTheCalibrationResultIsReturned()
+    {
+        var equation = new ConcatenationEquation([15, 6]);
+
+        var solved = equation.CanSolveFor(156);
+
+        solved.Should().BeTrue();
+    }
+
+    [Fact]
+    public void GivenAnEquationIsNotSolveableWithSingleConcatentationThenTheCalibrationResultIsNotReturned()
+    {
+        var equation = new ConcatenationEquation([15, 6]);
+
+        var solved = equation.CanSolveFor(157);
+
+        solved.Should().BeFalse();
+    }
+
     [Theory]
     [InlineData("190: 10 19", true)]
     [InlineData("3267: 81 40 27", true)]
@@ -120,25 +140,5 @@ public class EquationTests
         var solved = RootEquation.Create(equationInput, true).TrySolve(out _);
 
         solved.Should().Be(expectedToBeSolved);
-    }
-
-    [Fact]
-    public void GivenAnEquationIsSolveableWithSingleConcatentationThenTheCalibrationResultIsReturned()
-    {
-        var equation = new ConcatenationEquation(156, [15, 6]);
-
-        var solved = equation.TrySolve();
-
-        solved.Should().BeTrue();
-    }
-
-    [Fact]
-    public void GivenAnEquationIsNotSolveableWithSingleConcatentationThenTheCalibrationResultIsNotReturned()
-    {
-        var equation = new ConcatenationEquation(157, [15, 6]);
-
-        var solved = equation.TrySolve();
-
-        solved.Should().BeFalse();
     }
 }
